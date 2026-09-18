@@ -71,6 +71,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .btn-copy-id:active{transform:scale(.97)}
 .btn-copy-id.copied{background:#43A047;color:white}
 .device-hint{font-size:10px;color:#D2B48C;margin-top:10px;line-height:1.5}
+.btn-contact{background:linear-gradient(135deg,#25D366,#128C7E);color:white;border:none;padding:14px 20px;border-radius:14px;font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;width:100%;max-width:340px;margin-top:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-contact:active{transform:scale(.97)}
+.btn-export{background:rgba(245,222,179,.15);color:#F5DEB3;border:2px solid rgba(245,222,179,.4);padding:12px 20px;border-radius:14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;width:100%;max-width:340px;margin-top:10px}
 #lockScreen{position:fixed;inset:0;background:linear-gradient(135deg,#8B4513,#5D2E0C);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:10000;padding:30px}
 #lockScreen.show{display:flex}
 .lock-logo{font-size:80px;margin-bottom:20px;animation:float 3s ease-in-out infinite}
@@ -99,9 +102,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .stat-mini{background:rgba(245,222,179,.15);padding:8px 10px;border-radius:12px;backdrop-filter:blur(10px)}
 .stat-mini-label{font-size:9px;color:#D2B48C;text-transform:uppercase;letter-spacing:.5px}
 .stat-mini-value{font-size:15px;font-weight:800;color:#F5DEB3;margin-top:2px}
-.licence-alert{background:linear-gradient(135deg,#FFB74D,#FB8C00);color:white;padding:10px 15px;border-radius:12px;margin:10px 15px 0;font-size:12px;font-weight:700;display:none;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(251,140,0,.3)}
-.licence-alert.show{display:flex}
-.licence-alert.danger{background:linear-gradient(135deg,#EF5350,#E53935);box-shadow:0 4px 12px rgba(229,57,53,.3)}
+.trial-banner{background:linear-gradient(135deg,#FFB74D,#FB8C00);color:white;padding:10px 15px;border-radius:12px;margin:10px 15px 0;font-size:12px;font-weight:700;display:none;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 4px 12px rgba(251,140,0,.3)}
+.trial-banner.show{display:flex}
+.trial-banner.urgent{background:linear-gradient(135deg,#EF5350,#E53935);box-shadow:0 4px 12px rgba(229,57,53,.4);animation:pulseUrgent 2s infinite}
+.trial-banner.last{background:linear-gradient(135deg,#C62828,#B71C1C);box-shadow:0 4px 12px rgba(183,28,28,.5);animation:pulseUrgent 1s infinite}
+@keyframes pulseUrgent{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.trial-banner-text{flex:1}
+.trial-banner-btn{background:white;color:#E65100;border:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap}
 .session-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 0;margin-top:5px}
 .session-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,#FFB74D,#FF9800);color:white;box-shadow:0 4px 12px rgba(255,152,0,.3)}
 .session-badge.soir{background:linear-gradient(135deg,#5C6BC0,#3949AB)}
@@ -286,7 +293,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="lic-title" id="licTitle">Activation requise</div>
     <div class="lic-desc" id="licDesc">Entrez votre clé de licence</div>
     
-    <input type="text" class="lic-input" id="licInput" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" maxlength="30" autocomplete="off" style="display:none;">
+    <input type="text" class="lic-input" id="licInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="30" autocomplete="off" style="display:none;">
     <button class="lic-btn" id="licBtn" onclick="activateLicence()" style="display:none;">Activer</button>
     
     <div class="lic-error" id="licError"></div>
@@ -296,7 +303,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <button class="lic-trial-btn" onclick="startTrial()">🎁 Essayer 30 jours gratuit</button>
     </div>
     
-    <div class="lic-device-box">
+    <div class="lic-device-box" id="deviceBox">
         <div style="font-size:11px;color:#D2B48C;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
             📱 Votre ID téléphone
         </div>
@@ -308,8 +315,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
     </div>
     
+    <button class="btn-contact" id="btnContact" onclick="contactWhatsApp()" style="display:none;">
+        <span>💬</span> Contacter le vendeur
+    </button>
+    
+    <button class="btn-export" id="btnExport" onclick="exportData()" style="display:none;">
+        📥 Exporter mes données
+    </button>
+    
     <div class="lic-info" id="licContact">
-        📞 Support : +221 77 686 86 25
+        📞 Support : 77 686 86 25
     </div>
 </div>
 
@@ -335,7 +350,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <button class="pin-btn" onclick="pressPin('DEL')">⌫</button>
     </div>
     <div class="pin-error" id="pinError"></div>
-    
+    <div class="pin-hint" id="pinHint">Codes par défaut : Patron 1234 • Caissier 0000</div>
 </div>
 
 <div class="header" id="appHeader" style="display:none;">
@@ -362,13 +377,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </div>
 </div>
 
-<div class="licence-alert" id="licenceAlert"></div>
+<div class="trial-banner" id="trialBanner">
+    <div class="trial-banner-text" id="trialBannerText">🎁 Essai gratuit</div>
+    <button class="trial-banner-btn" onclick="contactWhatsApp()">Acheter</button>
+</div>
 
 <div id="appContent" style="display:none;">
     <div class="section active" id="section-vente">
         <div class="session-bar">
             <div class="session-badge" id="sessionBadge">☀️ Matin</div>
-            <input type="text" class="session-search" id="searchInput" placeholder="🔍 Rechercher..." oninput="filterProducts()">
+            <input type="text" class="session-search" id="searchInput" placeholder="🔍 Rechercher un produit..." oninput="filterProducts()">
         </div>
         <div class="categories" id="categoriesBar"></div>
         <div class="main-content"><div class="products-grid" id="productsGrid"></div></div>
@@ -470,6 +488,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <button class="btn btn-secondary" style="margin-top:10px;" onclick="openImport()">📥 Importer fichier</button>
             <button class="btn btn-warning" style="margin-top:10px;" onclick="showAuditLog()">📋 Journal activité</button>
             <button class="btn btn-secondary" style="margin-top:10px;" onclick="showClosings()">🔐 Historique clôtures</button>
+            <button class="btn btn-info" style="margin-top:10px;" onclick="contactWhatsApp()">💬 Contacter le vendeur</button>
             <div id="patronOnlySection"></div>
             <button class="btn btn-secondary" style="margin-top:10px;" onclick="openModal('about')">ℹ️ À propos</button>
         </div>
@@ -506,7 +525,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         </div>
         <div class="form-group">
             <label class="form-label">Montant reçu du client</label>
-            <input type="number" class="form-input" id="cashReceived" placeholder="0" oninput="calcChange()" style="font-size:22px;text-align:center;font-weight:800;">
+            <input type="number" class="form-input" id="cashReceived" placeholder="Ex: 1000" oninput="calcChange()" style="font-size:22px;text-align:center;font-weight:800;">
         </div>
         <div class="cash-bills">
             <button class="cash-bill" onclick="addCash(500)">500</button>
@@ -534,9 +553,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="modal">
         <h3 class="modal-title">💳 Vente à crédit</h3>
         <div class="cash-display"><div class="cash-label">Montant</div><div class="cash-amount" id="creditSaleTotal">0 FCFA</div></div>
-        <div class="form-group"><label class="form-label">Nom client *</label><input type="text" class="form-input" id="creditSaleName" placeholder="Mamadou Diop"></div>
-        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="creditSalePhone" placeholder="77 123 45 67"></div>
-        <div class="form-group"><label class="form-label">Note</label><input type="text" class="form-input" id="creditSaleNote" placeholder="À payer vendredi"></div>
+        <div class="form-group"><label class="form-label">Nom client *</label><input type="text" class="form-input" id="creditSaleName" placeholder="Ex: Mamadou Diop"></div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="creditSalePhone" placeholder="Ex: 77 123 45 67"></div>
+        <div class="form-group"><label class="form-label">Note</label><input type="text" class="form-input" id="creditSaleNote" placeholder="Ex: À payer vendredi"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('creditSale')">Annuler</button><button class="btn btn-warning" onclick="confirmCreditSale()">💳 Enregistrer</button></div>
     </div>
 </div>
@@ -545,7 +564,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="modal">
         <h3 class="modal-title">💵 Remboursement</h3>
         <div id="remboursementInfo"></div>
-        <div class="form-group"><label class="form-label">Montant reçu</label><input type="number" class="form-input" id="remboursementAmount" placeholder="0" style="font-size:22px;text-align:center;font-weight:800;"></div>
+        <div class="form-group"><label class="form-label">Montant reçu</label><input type="number" class="form-input" id="remboursementAmount" placeholder="Ex: 5000" style="font-size:22px;text-align:center;font-weight:800;"></div>
         <div class="cash-bills" style="grid-template-columns:repeat(3,1fr);">
             <button class="cash-bill" onclick="setRemboursement('full')">Totalité</button>
             <button class="cash-bill" onclick="setRemboursement('half')">Moitié</button>
@@ -560,7 +579,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <h3 class="modal-title">↩️ Retour marchandise</h3>
         <div class="form-group"><label class="form-label">Produit</label><select class="form-select" id="retourProduct" onchange="updateRetourTotal()"></select></div>
         <div class="form-group"><label class="form-label">Quantité</label><input type="number" class="form-input" id="retourQty" value="1" min="1" oninput="updateRetourTotal()"></div>
-        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retourReason" placeholder="Trop cuit, erreur..."></div>
+        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retourReason" placeholder="Ex: Trop cuit, erreur client"></div>
         <div class="cash-display"><div class="cash-label">À rendre</div><div class="cash-amount" id="retourTotal">0 FCFA</div></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('retour')">Annuler</button><button class="btn btn-danger" onclick="confirmRetour()">↩️ Confirmer</button></div>
     </div>
@@ -584,8 +603,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-depense">
     <div class="modal">
         <h3 class="modal-title">💸 Dépense</h3>
-        <div class="form-group"><label class="form-label">Motif *</label><input type="text" class="form-input" id="depenseReason" placeholder="Transport farine"></div>
-        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="depenseAmount" placeholder="0" style="font-size:20px;font-weight:800;text-align:center;"></div>
+        <div class="form-group"><label class="form-label">Motif *</label><input type="text" class="form-input" id="depenseReason" placeholder="Ex: Transport farine"></div>
+        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="depenseAmount" placeholder="Ex: 2000" style="font-size:20px;font-weight:800;text-align:center;"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('depense')">Annuler</button><button class="btn btn-danger" onclick="confirmDepense()">💸 Enregistrer</button></div>
     </div>
 </div>
@@ -593,8 +612,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-apport">
     <div class="modal">
         <h3 class="modal-title">🏦 Apport caisse</h3>
-        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="apportReason" placeholder="Fond de caisse matin"></div>
-        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="apportAmount" placeholder="0" style="font-size:20px;font-weight:800;text-align:center;"></div>
+        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="apportReason" placeholder="Ex: Fond de caisse matin"></div>
+        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="apportAmount" placeholder="Ex: 20000" style="font-size:20px;font-weight:800;text-align:center;"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('apport')">Annuler</button><button class="btn btn-info" onclick="confirmApport()">🏦 Enregistrer</button></div>
     </div>
 </div>
@@ -602,8 +621,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-retrait">
     <div class="modal">
         <h3 class="modal-title">🏧 Retrait caisse</h3>
-        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retraitReason" placeholder="Dépôt Wave"></div>
-        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="retraitAmount" placeholder="0" style="font-size:20px;font-weight:800;text-align:center;"></div>
+        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retraitReason" placeholder="Ex: Dépôt Wave"></div>
+        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="retraitAmount" placeholder="Ex: 15000" style="font-size:20px;font-weight:800;text-align:center;"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('retrait')">Annuler</button><button class="btn btn-danger" onclick="confirmRetrait()">🏧 Enregistrer</button></div>
     </div>
 </div>
@@ -611,10 +630,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-acompte">
     <div class="modal">
         <h3 class="modal-title">🎁 Acompte client</h3>
-        <div class="form-group"><label class="form-label">Nom *</label><input type="text" class="form-input" id="acompteName" placeholder="Fatou Ndiaye"></div>
-        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="acomptePhone" placeholder="77 123 45 67"></div>
-        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="acompteAmount" placeholder="0" style="font-size:20px;font-weight:800;text-align:center;"></div>
-        <div class="form-group"><label class="form-label">Note</label><input type="text" class="form-input" id="acompteNote" placeholder="Commande mariage samedi"></div>
+        <div class="form-group"><label class="form-label">Nom *</label><input type="text" class="form-input" id="acompteName" placeholder="Ex: Fatou Ndiaye"></div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="acomptePhone" placeholder="Ex: 77 123 45 67"></div>
+        <div class="form-group"><label class="form-label">Montant *</label><input type="number" class="form-input" id="acompteAmount" placeholder="Ex: 5000" style="font-size:20px;font-weight:800;text-align:center;"></div>
+        <div class="form-group"><label class="form-label">Note</label><input type="text" class="form-input" id="acompteNote" placeholder="Ex: Commande mariage samedi"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('acompte')">Annuler</button><button class="btn btn-info" onclick="confirmAcompte()">🎁 Enregistrer</button></div>
     </div>
 </div>
@@ -622,16 +641,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-addProduct">
     <div class="modal">
         <h3 class="modal-title">➕ Ajouter produit</h3>
-        <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="newProductName" placeholder="Baguette tradition"></div>
-        <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="newProductEmoji" placeholder="🥖" maxlength="3"></div>
+        <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="newProductName" placeholder="Ex: Baguette tradition"></div>
+        <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="newProductEmoji" placeholder="Ex: 🥖" maxlength="3"></div>
         <div class="form-group"><label class="form-label">Catégorie</label>
             <select class="form-select" id="newProductCategory">
                 <option>Pains</option><option>Viennoiseries</option><option>Pâtisseries</option><option>Boissons</option><option>Divers</option>
             </select>
         </div>
-        <div class="form-group"><label class="form-label">Prix vente (FCFA)</label><input type="number" class="form-input" id="newProductPrice" placeholder="150"></div>
-        <div class="form-group"><label class="form-label">Prix revient (FCFA)</label><input type="number" class="form-input" id="newProductCost" placeholder="100"></div>
-        <div class="form-group"><label class="form-label">Stock initial</label><input type="number" class="form-input" id="newProductStock" placeholder="50"></div>
+        <div class="form-group"><label class="form-label">Prix vente (FCFA)</label><input type="number" class="form-input" id="newProductPrice" placeholder="Ex: 150"></div>
+        <div class="form-group"><label class="form-label">Prix revient (FCFA)</label><input type="number" class="form-input" id="newProductCost" placeholder="Ex: 100"></div>
+        <div class="form-group"><label class="form-label">Stock initial</label><input type="number" class="form-input" id="newProductStock" placeholder="Ex: 50"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('addProduct')">Annuler</button><button class="btn btn-primary" onclick="addNewProduct()">Ajouter</button></div>
     </div>
 </div>
@@ -639,7 +658,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-editStock">
     <div class="modal">
         <h3 class="modal-title" id="editStockTitle">Ajouter au stock</h3>
-        <div class="form-group"><label class="form-label">Quantité</label><input type="number" class="form-input" id="stockAdjustment" placeholder="20" style="font-size:20px;text-align:center;font-weight:800;"></div>
+        <div class="form-group"><label class="form-label">Quantité</label><input type="number" class="form-input" id="stockAdjustment" placeholder="Ex: 20" style="font-size:20px;text-align:center;font-weight:800;"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('editStock')">Annuler</button><button class="btn btn-primary" onclick="adjustStock()">Ajouter</button></div>
     </div>
 </div>
@@ -647,10 +666,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-boulangerie">
     <div class="modal">
         <h3 class="modal-title">🏪 Ma boulangerie</h3>
-        <div class="form-group"><label class="form-label">Nom boulangerie</label><input type="text" class="form-input" id="boulangerieName" placeholder="Boulangerie Prestige"></div>
-        <div class="form-group"><label class="form-label">Emoji / Logo</label><input type="text" class="form-input" id="boulangerieLogo" placeholder="🥖" maxlength="3"></div>
-        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="boulangeriePhone" placeholder="+221 77 123 45 67"></div>
-        <div class="form-group"><label class="form-label">Adresse</label><input type="text" class="form-input" id="boulangerieAddress" placeholder="Médina, Dakar"></div>
+        <div class="form-group"><label class="form-label">Nom boulangerie</label><input type="text" class="form-input" id="boulangerieName" placeholder="Ex: Boulangerie Le Baobab"></div>
+        <div class="form-group"><label class="form-label">Emoji / Logo</label><input type="text" class="form-input" id="boulangerieLogo" placeholder="Ex: 🥖" maxlength="3"></div>
+        <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="boulangeriePhone" placeholder="Ex: +221 77 123 45 67"></div>
+        <div class="form-group"><label class="form-label">Adresse</label><input type="text" class="form-input" id="boulangerieAddress" placeholder="Ex: Médina, Dakar"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('boulangerie')">Annuler</button><button class="btn btn-primary" onclick="saveBoulangerie()">Enregistrer</button></div>
     </div>
 </div>
@@ -658,8 +677,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-pin">
     <div class="modal">
         <h3 class="modal-title">🔑 Changer PIN</h3>
-        <div class="form-group"><label class="form-label">PIN Patron (4 chiffres)</label><input type="tel" class="form-input" id="newPinPatron" placeholder="1234" maxlength="4" pattern="[0-9]{4}"></div>
-        <div class="form-group"><label class="form-label">PIN Caissier (4 chiffres)</label><input type="tel" class="form-input" id="newPinCaissier" placeholder="0000" maxlength="4" pattern="[0-9]{4}"></div>
+        <div class="form-group"><label class="form-label">PIN Patron (4 chiffres)</label><input type="tel" class="form-input" id="newPinPatron" placeholder="Ex: 1234" maxlength="4" pattern="[0-9]{4}"></div>
+        <div class="form-group"><label class="form-label">PIN Caissier (4 chiffres)</label><input type="tel" class="form-input" id="newPinCaissier" placeholder="Ex: 0000" maxlength="4" pattern="[0-9]{4}"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('pin')">Annuler</button><button class="btn btn-primary" onclick="savePins()">Enregistrer</button></div>
     </div>
 </div>
@@ -682,14 +701,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div style="text-align:center;padding:15px 0;">
             <div style="font-size:60px;">🥖</div>
             <div style="font-size:18px;font-weight:800;margin-top:10px;">Boulangerie Prestige</div>
-            <div style="font-size:12px;color:#999;margin-top:5px;">Version 4.3</div>
+            <div style="font-size:12px;color:#999;margin-top:5px;">Version 4.4</div>
         </div>
         <div style="font-size:12px;line-height:1.8;color:#666;">
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📱 Application de gestion de caisse</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">🇸🇳 Développée pour le Sénégal</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">💾 Données stockées sur votre téléphone</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;word-break:break-all;" id="aboutDeviceId">-</div>
-            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📞 Support : +221 XX XXX XX XX</div>
+            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📞 Support : 77 686 86 25</div>
             <div style="padding:10px 0;">📧 contact@boulangerie-prestige.sn</div>
         </div>
         <div class="cart-actions" style="margin-top:20px;">
@@ -701,21 +720,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <input type="file" id="importFile" accept=".json" style="display:none;" onchange="handleImport(event)">
 
 <script>
-// ============================================================
-// BOULANGERIE PRESTIGE v4.3
-// Protection par chiffrement ID téléphone
-// ============================================================
-const VERSION = '4.3';
+const VERSION = '4.4';
 const KEYS = {
     products:'bp4_products', txs:'bp4_txs', credits:'bp4_credits',
     acomptes:'bp4_acomptes', audit:'bp4_audit', closings:'bp4_closings',
     settings:'bp4_settings', config:'bp4_config', licence:'bp4_licence',
-    deviceId:'bp4_device_id'
+    deviceId:'bp4_device_id', lastDate:'bp4_last_date'
 };
 
-// 🔑 CLÉ SECRÈTE - DOIT ÊTRE IDENTIQUE AU GÉNÉRATEUR
-// ⚠️ CHANGEZ-LA AVANT DE VENDRE
-const SECRET_KEY = 'BP2026-DAKAR-SECRET-KEY-CHANGE-ME';
+const _k1 = [98,112,50,48,50,54];
+const _k2 = [45,100,97,107,97,114];
+const _k3 = [45,109,97,115,116,101,114];
+const _k4 = [45,115,101,99,114,101,116];
+const _k5 = [45,50,48,50,54];
+const SECRET_KEY = _k1.concat(_k2, _k3, _k4, _k5).map(c => String.fromCharCode(c)).join('').toUpperCase();
+
+const WHATSAPP_NUMBER = '221776868625';
+const DISPLAY_PHONE = '77 686 86 25';
+
+const TRIAL_DAYS = 30;
+const ALERT_THRESHOLDS = [15, 7, 3, 1];
 
 const DEFAULT_PRODUCTS = [
     {id:'1',name:'Baguette',emoji:'🥖',price:150,cost:100,stock:100,category:'Pains'},
@@ -740,8 +764,8 @@ let state = {
         logo:'🥖',
         phone:'',
         address:'Dakar, Sénégal',
-        pinPatron:'1234',
-        pinCaissier:'0000',
+        pinPatronHash:null,
+        pinCaissierHash:null,
         installed:false
     },
     licence:null,
@@ -749,12 +773,10 @@ let state = {
     cart:[], currentUser:null, currentSection:'vente', currentCategory:'Tous',
     searchTerm:'', txFilter:'all', clientFilter:'credits',
     pinBuffer:'', paymentReceived:0, acompteApplied:null, remboursementCreditId:null,
-    deferredPrompt:null, onboardingStep:1, onboardingData:{}
+    deferredPrompt:null, onboardingStep:1, onboardingData:{},
+    trialAlerted:null
 };
 
-// ============================================================
-// UTILITAIRES
-// ============================================================
 function safeParse(k,f){try{const r=localStorage.getItem(k);return r?JSON.parse(r):f;}catch(e){console.error(e);return f;}}
 function safeSave(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){if(e.name==='QuotaExceededError')showToast('⚠️ Stockage plein','error');return false;}}
 function esc(s){if(s==null)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -766,37 +788,6 @@ function getSession(){const h=new Date().getHours();return (h>=5&&h<14)?'matin':
 function nowISO(){return new Date().toISOString();}
 function fmtDateTime(iso){const d=new Date(iso);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
 
-// ============================================================
-// EMPREINTE TÉLÉPHONE (ID unique par appareil)
-// ============================================================
-function generateDeviceId(){
-    let existing = localStorage.getItem(KEYS.deviceId);
-    if(existing && /^TEL-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(existing)) {
-        return existing;
-    }
-    
-    // Génère un ID sur 3 blocs de 4 caractères
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    const genBlock = (len) => {
-        let b = '';
-        for(let i = 0; i < len; i++) {
-            b += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return b;
-    };
-    
-    const deviceId = `TEL-${genBlock(4)}-${genBlock(4)}-${genBlock(4)}`;
-    
-    localStorage.setItem(KEYS.deviceId, deviceId);
-    return deviceId;
-}
-function getCurrentDeviceId(){
-    return localStorage.getItem(KEYS.deviceId) || generateDeviceId();
-}
-
-// ============================================================
-// CHIFFREMENT / VÉRIFICATION LICENCE
-// ============================================================
 function simpleHash(str){
     let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
     for(let i = 0; i < str.length; i++){
@@ -808,6 +799,40 @@ function simpleHash(str){
     h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
     return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36);
 }
+
+function hashPin(pin){return simpleHash(pin + SECRET_KEY + 'PIN-SALT').toUpperCase().slice(0, 16);}
+
+function signLicenceData(lic){
+    const dataStr = JSON.stringify({
+        code: lic.code, expiresAt: lic.expiresAt, deviceId: lic.deviceId,
+        activatedAt: lic.activatedAt, type: lic.type
+    });
+    let hash = 0x811c9dc5;
+    for(let i = 0; i < dataStr.length; i++){
+        hash ^= dataStr.charCodeAt(i);
+        hash = Math.imul(hash, 0x01000193);
+    }
+    return (hash >>> 0).toString(36).toUpperCase() + simpleHash(dataStr + SECRET_KEY).toUpperCase().slice(0, 8);
+}
+
+function verifyLicenceIntegrity(lic){
+    if(!lic || !lic._sig) return false;
+    return lic._sig === signLicenceData(lic);
+}
+
+function saveLicence(lic){lic._sig = signLicenceData(lic);safeSave(KEYS.licence, lic);}
+
+function generateDeviceId(){
+    let existing = localStorage.getItem(KEYS.deviceId);
+    if(existing && /^TEL-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(existing)) return existing;
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const genBlock = (len) => {let b = '';for(let i = 0; i < len; i++) b += chars.charAt(Math.floor(Math.random() * chars.length));return b;};
+    const deviceId = `TEL-${genBlock(4)}-${genBlock(4)}-${genBlock(4)}`;
+    localStorage.setItem(KEYS.deviceId, deviceId);
+    return deviceId;
+}
+
+function getCurrentDeviceId(){ return localStorage.getItem(KEYS.deviceId) || generateDeviceId(); }
 
 function generateSignature(deviceId, year){
     const input = `${deviceId.toUpperCase()}|${year}|${SECRET_KEY}`;
@@ -821,244 +846,90 @@ function verifyLicence(licenceCode){
     const currentDevice = getCurrentDeviceId();
     const pattern = /^BAK-([A-Z0-9]{4})-([A-Z0-9]{4})-(\d{4})-([A-Z0-9]{8})$/;
     const match = licenceCode.match(pattern);
-    
-    if(!match){
-        return { valid: false, reason: 'Format de licence invalide. Attendu : BAK-XXXX-XXXX-YYYY-XXXXXXXX' };
-    }
-    
+    if(!match) return { valid: false, reason: 'Clé incorrecte' };
     const [, block1, block2, year, signature] = match;
-    
     const yearNum = parseInt(year);
-    if(yearNum < new Date().getFullYear()){
-        return { valid: false, reason: 'Licence expirée' };
-    }
-    
+    if(yearNum < new Date().getFullYear()) return { valid: false, reason: 'Cette clé a expiré' };
     const expectedSig = generateSignature(currentDevice, year);
-    
     if(signature !== expectedSig){
-        return { 
-            valid: false, 
-            reason: 'Cette licence ne correspond pas à cet appareil. Envoyez votre ID au vendeur : ' + currentDevice
-        };
+        return { valid: false, reason: 'Cette clé ne correspond pas à cet appareil. Envoyez votre ID au vendeur : ' + currentDevice };
     }
-    
-    return {
-        valid: true,
-        expires: `${year}-12-31`,
-        type: 'premium',
-        deviceId: currentDevice
-    };
+    return { valid: true, expires: `${year}-12-31`, type: 'premium', deviceId: currentDevice };
 }
 
-// ============================================================
-// ACTIVATION LICENCE
-// ============================================================
-function activateLicence(){
-    const input = document.getElementById('licInput').value.trim().toUpperCase();
-    const err = document.getElementById('licError');
-    err.textContent = '';
-    
-    if(!input){
-        err.textContent = '❌ Entrez une clé';
-        return;
-    }
-    
-    const result = verifyLicence(input);
-    
-    if(!result.valid){
-        err.textContent = '❌ ' + result.reason;
-        return;
-    }
-    
-    state.licence = {
-        code: input,
-        activatedAt: nowISO(),
-        expiresAt: result.expires,
-        type: result.type,
-        deviceId: result.deviceId
-    };
-    safeSave(KEYS.licence, state.licence);
-    
-    document.getElementById('licenceScreen').classList.remove('show');
-    document.getElementById('lockScreen').classList.add('show');
-    document.getElementById('lockTitle').textContent = state.config.nom;
-    showToast('✅ Licence activée !', 'success', 3000);
-    logAudit('LICENCE_ACTIVATION', input);
-}
-
-function checkLicence(){
-    const lic = safeParse(KEYS.licence, null);
-    
-    if(!lic){
-        showLicenceScreen('new');
+function checkDateManipulation(){
+    const lastKnown = parseInt(localStorage.getItem(KEYS.lastDate) || '0');
+    const now = Date.now();
+    if(lastKnown > 0 && now < lastKnown - (24 * 60 * 60 * 1000)) {
+        logAudit('DATE_MANIPULATION', `Dernière: ${new Date(lastKnown).toISOString()}, Maintenant: ${new Date(now).toISOString()}`);
         return false;
     }
-    
-    // Trial : juste vérifier expiration
-    if(lic.type === 'trial'){
-        if(new Date(lic.expiresAt) < new Date()){
-            showLicenceScreen('expired');
-            return false;
-        }
-        state.licence = lic;
-        return true;
-    }
-    
-    // Premium : re-vérifier la signature
-    const result = verifyLicence(lic.code);
-    
-    if(!result.valid){
-        showLicenceScreen('mismatch');
-        return false;
-    }
-    
-    if(new Date(lic.expiresAt) < new Date()){
-        showLicenceScreen('expired');
-        return false;
-    }
-    
-    state.licence = lic;
+    localStorage.setItem(KEYS.lastDate, now.toString());
     return true;
 }
 
-function showLicenceScreen(mode){
-    const screen = document.getElementById('licenceScreen');
-    const icon = document.getElementById('licIcon');
-    const title = document.getElementById('licTitle');
-    const desc = document.getElementById('licDesc');
-    const input = document.getElementById('licInput');
-    const btn = document.getElementById('licBtn');
-    const trialBox = document.getElementById('trialBox');
-    const err = document.getElementById('licError');
-    const deviceIdBig = document.getElementById('deviceIdBig');
-    
-    err.textContent = '';
-    
+function contactWhatsApp(){
     const deviceId = getCurrentDeviceId();
-    if(deviceIdBig) deviceIdBig.textContent = deviceId;
-    
-    if(mode === 'new'){
-        icon.textContent = '🔑';
-        title.textContent = 'Activation requise';
-        desc.innerHTML = 'Envoyez votre ID au vendeur,<br>puis entrez la clé reçue';
-        input.style.display = 'block';
-        input.value = '';
-        input.placeholder = 'BAK-XXXX-XXXX-YYYY-XXXXXXXX';
-        btn.style.display = 'block';
-        btn.textContent = 'Activer';
-        btn.onclick = activateLicence;
-        trialBox.style.display = 'block';
+    let message = '';
+    if(state.licence && state.licence.type === 'trial'){
+        const daysLeft = getTrialDaysLeft();
+        message = `Bonjour, je souhaite acheter la licence Boulangerie Prestige.\n\nMon ID : ${deviceId}\nEssai restant : ${daysLeft} jour(s)`;
+    } else if(state.licence && state.licence.type === 'premium'){
+        message = `Bonjour, je vous contacte au sujet de ma licence Boulangerie Prestige.\n\nMon ID : ${deviceId}`;
+    } else {
+        message = `Bonjour, je souhaite activer Boulangerie Prestige.\n\nMon ID : ${deviceId}`;
     }
-    else if(mode === 'mismatch'){
-        icon.textContent = '🚫';
-        title.textContent = 'Appareil non autorisé';
-        desc.innerHTML = 'Cette licence est liée à un <strong>autre téléphone</strong>.<br>Envoyez votre nouvel ID au vendeur.';
-        input.style.display = 'block';
-        input.value = '';
-        input.placeholder = 'BAK-XXXX-XXXX-YYYY-XXXXXXXX';
-        btn.style.display = 'block';
-        btn.textContent = 'Activer nouvelle licence';
-        btn.onclick = activateLicence;
-        trialBox.style.display = 'none';
-    }
-    else if(mode === 'expired'){
-        icon.textContent = '⏰';
-        title.textContent = 'Licence expirée';
-        desc.innerHTML = 'Votre licence a expiré.<br>Contactez le vendeur pour la renouveler.';
-        input.style.display = 'block';
-        input.value = '';
-        input.placeholder = 'BAK-XXXX-XXXX-YYYY-XXXXXXXX';
-        btn.style.display = 'block';
-        btn.textContent = 'Renouveler';
-        btn.onclick = activateLicence;
-        trialBox.style.display = 'none';
-    }
-    
-    screen.classList.add('show');
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
 }
 
-function copyDeviceId(){
-    const deviceId = getCurrentDeviceId();
-    const btn = document.getElementById('btnCopyId');
-    
-    const doCopy = () => {
-        showToast('📋 ID copié !', 'success');
-        if(btn){
-            btn.textContent = '✅ Copié !';
-            btn.classList.add('copied');
-            setTimeout(() => {
-                btn.textContent = '📋 Copier mon ID';
-                btn.classList.remove('copied');
-            }, 2000);
+function getTrialDaysLeft(){
+    if(!state.licence || state.licence.type !== 'trial') return 0;
+    const exp = new Date(state.licence.expiresAt);
+    return Math.max(0, Math.ceil((exp - new Date()) / (1000*60*60*24)));
+}
+
+function updateTrialBanner(){
+    const banner = document.getElementById('trialBanner');
+    const text = document.getElementById('trialBannerText');
+    if(!state.licence) { banner.classList.remove('show'); return; }
+    if(state.licence.type === 'trial'){
+        const days = getTrialDaysLeft();
+        banner.classList.add('show');
+        banner.classList.remove('urgent', 'last');
+        if(days <= 1){
+            banner.classList.add('last');
+            text.innerHTML = `🚨 <strong>DERNIER JOUR d'essai !</strong> Achetez maintenant`;
+        } else if(days <= 3){
+            banner.classList.add('urgent');
+            text.innerHTML = `⚠️ Essai expire dans <strong>${days} jours</strong>`;
+        } else if(days <= 7){
+            banner.classList.add('urgent');
+            text.innerHTML = `⏰ Essai expire dans <strong>${days} jours</strong>`;
+        } else {
+            text.innerHTML = `🎁 Essai gratuit — <strong>${days} jours restants</strong>`;
         }
-    };
-    
-    if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(deviceId).then(doCopy).catch(() => fallbackCopyDevice(deviceId, doCopy));
-    } else {
-        fallbackCopyDevice(deviceId, doCopy);
+    } else if(state.licence.type === 'premium'){
+        banner.classList.remove('show');
     }
 }
 
-function fallbackCopyDevice(deviceId, cb){
-    const ta = document.createElement('textarea');
-    ta.value = deviceId;
-    ta.style.position = 'fixed';
-    ta.style.left = '-9999px';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); if(cb) cb(); } catch(e) {}
-    document.body.removeChild(ta);
-}
-
-function startTrial(){
-    const trial = {
-        code: 'TRIAL-' + Date.now(),
-        activatedAt: nowISO(),
-        expiresAt: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-        type: 'trial',
-        deviceId: getCurrentDeviceId()
-    };
-    state.licence = trial;
-    safeSave(KEYS.licence, trial);
-    document.getElementById('licenceScreen').classList.remove('show');
-    document.getElementById('lockScreen').classList.add('show');
-    document.getElementById('lockTitle').textContent = state.config.nom;
-    showToast('🎁 Essai 30 jours activé !', 'success', 3000);
-}
-
-function getLicenceStatus(){
-    if (!state.licence) return 'Aucune';
-    const exp = new Date(state.licence.expiresAt);
-    const days = Math.floor((exp - new Date()) / (1000*60*60*24));
-    if (days < 0) return 'Expirée';
-    if (state.licence.type === 'trial') return `Essai (${days}j)`;
-    return `Active (${days}j)`;
-}
-
-function checkLicenceAlert(){
-    const alert = document.getElementById('licenceAlert');
-    if (!state.licence || !state.currentUser) { alert.classList.remove('show'); return; }
-    const exp = new Date(state.licence.expiresAt);
-    const days = Math.ceil((exp - new Date()) / (1000*60*60*24));
-    
-    if (days < 0) {
-        alert.className = 'licence-alert danger show';
-        alert.innerHTML = '🚨 <strong>Licence expirée !</strong> Contactez : +221 XX XXX XX XX';
-    } else if (days <= 7) {
-        alert.className = 'licence-alert show';
-        alert.innerHTML = `⚠️ <strong>Licence expire dans ${days} jour${days>1?'s':''}</strong>`;
-    } else if (days <= 30) {
-        alert.className = 'licence-alert show';
-        alert.innerHTML = `⏰ Licence expire dans ${days} jours`;
-    } else {
-        alert.classList.remove('show');
+function checkTrialAlerts(){
+    if(!state.licence || state.licence.type !== 'trial') return;
+    const days = getTrialDaysLeft();
+    if(state.trialAlerted === days) return;
+    if(ALERT_THRESHOLDS.includes(days)){
+        state.trialAlerted = days;
+        safeSave('bp_trial_alerted', days);
+        let msg = '';
+        if(days === 1) msg = `🚨 DERNIER JOUR d'essai ! Contactez le ${DISPLAY_PHONE}`;
+        else if(days === 3) msg = `⚠️ Essai expire dans 3 jours ! Appelez le ${DISPLAY_PHONE}`;
+        else if(days === 7) msg = `⏰ Essai expire dans 7 jours. Contactez le ${DISPLAY_PHONE}`;
+        else if(days === 15) msg = `📅 Votre essai expire dans 15 jours. Pensez à contacter le ${DISPLAY_PHONE}`;
+        if(msg) showToast(msg, days <= 3 ? 'error' : 'info', 6000);
     }
 }
 
-// ============================================================
-// AUDIT + STOCKAGE
-// ============================================================
 function logAudit(action,details=''){
     state.audit.unshift({id:uid(),timestamp:nowISO(),user:state.currentUser||'système',action,details});
     if(state.audit.length>1000) state.audit=state.audit.slice(0,1000);
@@ -1082,17 +953,149 @@ function initData(){
     state.audit=safeParse(KEYS.audit,[]);
     state.closings=safeParse(KEYS.closings,[]);
     state.settings=safeParse(KEYS.settings,{lastExport:null,lastImport:null});
-    state.config=safeParse(KEYS.config,{nom:'Boulangerie Prestige',logo:'🥖',phone:'',address:'Dakar, Sénégal',pinPatron:'1234',pinCaissier:'0000',installed:false});
-    state.licence=safeParse(KEYS.licence,null);
+    state.config=safeParse(KEYS.config,{nom:'Boulangerie Prestige',logo:'🥖',phone:'',address:'Dakar, Sénégal',pinPatronHash:null,pinCaissierHash:null,installed:false});
+    state.trialAlerted = safeParse('bp_trial_alerted', null);
+    if(state.config.pinPatron && !state.config.pinPatronHash){
+        state.config.pinPatronHash = hashPin(state.config.pinPatron);
+        state.config.pinCaissierHash = hashPin(state.config.pinCaissier);
+        delete state.config.pinPatron; delete state.config.pinCaissier;
+        saveConfig();
+    }
     let mig=false;
     state.products.forEach(p=>{if(!p.category){p.category='Pains';mig=true;}if(!p.id){p.id=uid();mig=true;}});
     if(!localStorage.getItem(KEYS.products)) mig=true;
     if(mig) saveProducts();
 }
 
-// ============================================================
-// ONBOARDING (3 étapes - licence après)
-// ============================================================
+function activateLicence(){
+    const input = document.getElementById('licInput').value.trim().toUpperCase();
+    const err = document.getElementById('licError');
+    err.textContent = '';
+    if(!input){ err.textContent = '❌ Entrez une clé'; return; }
+    const result = verifyLicence(input);
+    if(!result.valid){ err.textContent = '❌ ' + result.reason; return; }
+    state.licence = {code: input, activatedAt: nowISO(), expiresAt: result.expires, type: result.type, deviceId: result.deviceId};
+    saveLicence(state.licence);
+    document.getElementById('licenceScreen').classList.remove('show');
+    document.getElementById('lockScreen').classList.add('show');
+    document.getElementById('lockTitle').textContent = state.config.nom;
+    showToast('✅ Licence activée !', 'success', 3000);
+    logAudit('LICENCE_ACTIVATION', input);
+}
+
+function checkLicence(){
+    const lic = safeParse(KEYS.licence, null);
+    if(!lic){ showLicenceScreen('new'); return false; }
+    if(!verifyLicenceIntegrity(lic)){
+        localStorage.removeItem(KEYS.licence);
+        showLicenceScreen('new');
+        logAudit('LICENCE_FALSIFIEE', 'Signature invalide');
+        return false;
+    }
+    if(lic.type === 'trial'){
+        if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
+        state.licence = lic;
+        return true;
+    }
+    const result = verifyLicence(lic.code);
+    if(!result.valid){ showLicenceScreen('mismatch'); return false; }
+    if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
+    state.licence = lic;
+    return true;
+}
+
+function showLicenceScreen(mode){
+    const screen = document.getElementById('licenceScreen');
+    const icon = document.getElementById('licIcon');
+    const title = document.getElementById('licTitle');
+    const desc = document.getElementById('licDesc');
+    const input = document.getElementById('licInput');
+    const btn = document.getElementById('licBtn');
+    const trialBox = document.getElementById('trialBox');
+    const err = document.getElementById('licError');
+    const deviceIdBig = document.getElementById('deviceIdBig');
+    const deviceBox = document.getElementById('deviceBox');
+    const btnContact = document.getElementById('btnContact');
+    const btnExport = document.getElementById('btnExport');
+    err.textContent = '';
+    const deviceId = getCurrentDeviceId();
+    if(deviceIdBig) deviceIdBig.textContent = deviceId;
+    input.style.display = 'none'; btn.style.display = 'none'; trialBox.style.display = 'none';
+    deviceBox.style.display = 'none'; btnContact.style.display = 'none'; btnExport.style.display = 'none';
+    if(mode === 'new'){
+        icon.textContent = '🔑';
+        title.textContent = 'Activation requise';
+        desc.innerHTML = 'Envoyez votre ID au vendeur,<br>puis entrez la clé reçue';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'Activer'; btn.onclick = activateLicence;
+        trialBox.style.display = 'block'; deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+    } else if(mode === 'mismatch'){
+        icon.textContent = '🚫';
+        title.textContent = 'Clé non valide';
+        desc.innerHTML = 'Cette clé est liée à un <strong>autre téléphone</strong>.<br>Contactez le vendeur pour une nouvelle clé.';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'Activer une nouvelle clé'; btn.onclick = activateLicence;
+        deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+    } else if(mode === 'expired'){
+        icon.textContent = '⏰';
+        title.textContent = 'Essai terminé';
+        desc.innerHTML = 'Votre essai gratuit est arrivé à son terme.<br>Contactez le vendeur pour continuer.';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'J\'ai une clé'; btn.onclick = activateLicence;
+        deviceBox.style.display = 'block'; btnContact.style.display = 'flex'; btnExport.style.display = 'block';
+    }
+    screen.classList.add('show');
+}
+
+function copyDeviceId(){
+    const deviceId = getCurrentDeviceId();
+    const btn = document.getElementById('btnCopyId');
+    const doCopy = () => {
+        showToast('📋 ID copié !', 'success');
+        if(btn){
+            btn.textContent = '✅ Copié !'; btn.classList.add('copied');
+            setTimeout(() => { btn.textContent = '📋 Copier mon ID'; btn.classList.remove('copied'); }, 2000);
+        }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(deviceId).then(doCopy).catch(() => fallbackCopyDevice(deviceId, doCopy));
+    } else { fallbackCopyDevice(deviceId, doCopy); }
+}
+
+function fallbackCopyDevice(deviceId, cb){
+    const ta = document.createElement('textarea');
+    ta.value = deviceId; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); if(cb) cb(); } catch(e) {}
+    document.body.removeChild(ta);
+}
+
+function startTrial(){
+    const trial = {
+        code: 'TRIAL-' + Date.now(),
+        activatedAt: nowISO(),
+        expiresAt: new Date(Date.now() + TRIAL_DAYS*24*60*60*1000).toISOString().split('T')[0],
+        type: 'trial', deviceId: getCurrentDeviceId()
+    };
+    state.licence = trial;
+    saveLicence(trial);
+    state.trialAlerted = null;
+    document.getElementById('licenceScreen').classList.remove('show');
+    document.getElementById('lockScreen').classList.add('show');
+    document.getElementById('lockTitle').textContent = state.config.nom;
+    showToast(`🎁 Essai ${TRIAL_DAYS} jours activé !`, 'success', 3000);
+    logAudit('TRIAL_START', `Expire le ${trial.expiresAt}`);
+}
+
+function getLicenceStatus(){
+    if (!state.licence) return 'Aucune';
+    const exp = new Date(state.licence.expiresAt);
+    const days = Math.floor((exp - new Date()) / (1000*60*60*24));
+    if (days < 0) return 'Expirée';
+    if (state.licence.type === 'trial') return `Essai (${days}j)`;
+    return `Active (${days}j)`;
+}
+
 const EMOJIS = ['🥖','🥐','🍞','🥨','🧁','🍰','🎂','🍪','☕','🍵','🥤','💧','🍫','🥯','🫓','🍩','🥧','🧃','🍯','🥛','🌾','🛒'];
 
 function showOnboarding(){
@@ -1106,22 +1109,20 @@ function renderOnboardingStep(){
     const content = document.getElementById('obContent');
     const step = state.onboardingStep;
     const data = state.onboardingData;
-    
     document.querySelectorAll('.ob-step-dot').forEach(d => {
         const s = parseInt(d.dataset.step);
         d.classList.toggle('active', s === step);
         d.classList.toggle('done', s < step);
     });
-    
     if (step === 1) {
         content.innerHTML = `
             <div class="ob-icon">🏪</div>
             <div class="ob-title">Votre boulangerie</div>
             <div class="ob-desc">Ces informations apparaîtront sur vos reçus.</div>
-            <div class="ob-field"><label class="ob-label">Nom</label><input type="text" class="ob-input" id="obNom" value="${esc(data.nom)}" placeholder="Boulangerie Le Baobab"></div>
+            <div class="ob-field"><label class="ob-label">Nom</label><input type="text" class="ob-input" id="obNom" value="${esc(data.nom)}" placeholder="Ex: Boulangerie Le Baobab"></div>
             <div class="ob-field"><label class="ob-label">Logo</label><div class="ob-emoji-picker" id="obEmojiPicker"></div></div>
-            <div class="ob-field"><label class="ob-label">Téléphone</label><input type="tel" class="ob-input" id="obPhone" value="${esc(data.phone)}" placeholder="+221 77 123 45 67"></div>
-            <div class="ob-field"><label class="ob-label">Adresse</label><input type="text" class="ob-input" id="obAddress" value="${esc(data.address)}" placeholder="Médina, Dakar"></div>
+            <div class="ob-field"><label class="ob-label">Téléphone</label><input type="tel" class="ob-input" id="obPhone" value="${esc(data.phone)}" placeholder="Ex: +221 77 123 45 67"></div>
+            <div class="ob-field"><label class="ob-label">Adresse</label><input type="text" class="ob-input" id="obAddress" value="${esc(data.address)}" placeholder="Ex: Médina, Dakar"></div>
             <div class="ob-btn-row"><button class="ob-btn primary" onclick="obNext()">Continuer →</button></div>
         `;
         renderEmojiPicker();
@@ -1131,8 +1132,8 @@ function renderOnboardingStep(){
             <div class="ob-icon">🔐</div>
             <div class="ob-title">Codes PIN</div>
             <div class="ob-desc">Protégez l'accès avec 2 codes différents.</div>
-            <div class="ob-field"><label class="ob-label">PIN Patron (4 chiffres)</label><input type="tel" class="ob-input" id="obPinPatron" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinPatron)}" placeholder="1234"><div class="form-hint">Accès complet</div></div>
-            <div class="ob-field"><label class="ob-label">PIN Caissier (4 chiffres)</label><input type="tel" class="ob-input" id="obPinCaissier" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinCaissier)}" placeholder="0000"><div class="form-hint">Accès limité aux ventes</div></div>
+            <div class="ob-field"><label class="ob-label">PIN Patron (4 chiffres)</label><input type="tel" class="ob-input" id="obPinPatron" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinPatron)}" placeholder="Ex: 1234"><div class="form-hint">Accès complet</div></div>
+            <div class="ob-field"><label class="ob-label">PIN Caissier (4 chiffres)</label><input type="tel" class="ob-input" id="obPinCaissier" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinCaissier)}" placeholder="Ex: 0000"><div class="form-hint">Accès limité aux ventes</div></div>
             <div class="ob-btn-row"><button class="ob-btn secondary" onclick="obBack()">← Retour</button><button class="ob-btn primary" onclick="obNext()">Continuer →</button></div>
         `;
     }
@@ -1147,17 +1148,12 @@ function renderOnboardingStep(){
                     <div style="font-size:36px;">${esc(data.logo)}</div>
                     <div><div style="font-size:16px;font-weight:800;">${esc(data.nom)}</div><div style="font-size:12px;color:#999;">${esc(data.address)}</div></div>
                 </div>
-                <div style="padding:12px 0;font-size:13px;">
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#999;">📞 Téléphone</span><strong>${esc(data.phone) || 'Non renseigné'}</strong></div>
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#999;">🔑 PIN Patron</span><strong>${esc(data.pinPatron)}</strong></div>
-                    <div style="display:flex;justify-content:space-between;padding:6px 0;"><span style="color:#999;">👤 PIN Caissier</span><strong>${esc(data.pinCaissier)}</strong></div>
-                </div>
                 <div style="padding:12px;background:#f5f0e8;border-radius:10px;margin-top:10px;font-size:10px;font-family:monospace;text-align:center;color:#8B4513;">
                     📱 ID Appareil : <strong>${esc(deviceId)}</strong>
                 </div>
             </div>
             <div class="alert alert-info" style="margin-top:15px;font-size:11px;">
-                ℹ️ À l'étape suivante, vous devrez activer votre licence.
+                ℹ️ L'étape suivante vous permettra d'activer votre essai gratuit de 30 jours.
             </div>
             <div class="ob-btn-row"><button class="ob-btn secondary" onclick="obBack()">← Retour</button><button class="ob-btn primary" onclick="obFinish()">✅ Continuer</button></div>
         `;
@@ -1202,20 +1198,16 @@ function obFinish(){
     state.config.logo = d.logo;
     state.config.phone = d.phone;
     state.config.address = d.address;
-    state.config.pinPatron = d.pinPatron;
-    state.config.pinCaissier = d.pinCaissier;
+    state.config.pinPatronHash = hashPin(d.pinPatron);
+    state.config.pinCaissierHash = hashPin(d.pinCaissier);
     state.config.installed = true;
     saveConfig();
-    
     document.getElementById('onboarding').classList.remove('show');
     showLicenceScreen('new');
     showToast('✅ Configuration enregistrée !', 'success', 3000);
     logAudit('ONBOARDING', `Nouvelle installation : ${d.nom}`);
 }
 
-// ============================================================
-// PIN / AUTH
-// ============================================================
 function pressPin(d){
     const el=document.getElementById('pinError');el.textContent='';
     if(d==='DEL'){state.pinBuffer=state.pinBuffer.slice(0,-1);}
@@ -1225,10 +1217,15 @@ function pressPin(d){
 }
 function updatePinDots(){document.querySelectorAll('#pinDisplay .pin-dot').forEach((dot,i)=>dot.classList.toggle('filled',i<state.pinBuffer.length));}
 function checkPin(){
-    const pin=state.pinBuffer;
-    if(pin===state.config.pinPatron) loginAs('patron');
-    else if(pin===state.config.pinCaissier) loginAs('caissier');
-    else{document.getElementById('pinError').textContent='❌ Code PIN incorrect';state.pinBuffer='';updatePinDots();if(navigator.vibrate)navigator.vibrate(200);}
+    const pin = state.pinBuffer;
+    const hash = hashPin(pin);
+    if(hash === state.config.pinPatronHash) loginAs('patron');
+    else if(hash === state.config.pinCaissierHash) loginAs('caissier');
+    else {
+        document.getElementById('pinError').textContent='❌ Code PIN incorrect';
+        state.pinBuffer='';updatePinDots();
+        if(navigator.vibrate)navigator.vibrate(200);
+    }
 }
 function loginAs(role){
     state.currentUser=role;state.pinBuffer='';updatePinDots();
@@ -1244,7 +1241,8 @@ function loginAs(role){
     document.getElementById('profitReportCard').style.display=role==='caissier'?'none':'flex';
     renderSettingsSection();
     updateLicenceDisplay();
-    checkLicenceAlert();
+    updateTrialBanner();
+    checkTrialAlerts();
     logAudit('LOGIN',role);
     switchSection('vente');
     showToast(`Bienvenue ${role==='patron'?'Patron':'Caissier'} 👋`,'success');
@@ -1257,12 +1255,9 @@ function lockApp(){
     document.getElementById('appHeader').style.display='none';
     document.getElementById('appContent').style.display='none';
     document.getElementById('bottomNav').style.display='none';
-    document.getElementById('licenceAlert').classList.remove('show');
+    document.getElementById('trialBanner').classList.remove('show');
 }
 
-// ============================================================
-// NAVIGATION
-// ============================================================
 function switchSection(s){
     state.currentSection=s;
     document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
@@ -1286,9 +1281,6 @@ function updateLicenceDisplay(){
     badge.className = 'badge ' + (state.licence.type === 'trial' ? 'trial' : 'active');
 }
 
-// ============================================================
-// VENTE
-// ============================================================
 function renderCategories(){
     const bar=document.getElementById('categoriesBar');
     const cats=['Tous',...new Set(state.products.map(p=>p.category))];
@@ -1362,7 +1354,6 @@ function renderCart(){
 function clearCart(){if(state.cart.length===0)return;if(!confirm('Vider le panier ?'))return;state.cart=[];renderCart();}
 function getCartTotal(){return state.cart.reduce((s,i)=>s+i.price*i.quantity,0);}
 function getCartCost(){return state.cart.reduce((s,i)=>s+i.cost*i.quantity,0);}
-
 function openPayment(){
     if(state.cart.length===0)return;
     state.paymentReceived=0;state.acompteApplied=null;
@@ -1376,8 +1367,6 @@ function openPayment(){
 }
 function addCash(a){state.paymentReceived+=a;document.getElementById('cashReceived').value=state.paymentReceived;calcChange();}
 function clearCash(){state.paymentReceived=0;state.acompteApplied=null;document.getElementById('cashReceived').value='';document.getElementById('acompteApplied').style.display='none';calcChange();}
-
-// ⭐ FONCTION CORRIGÉE - La monnaie n'entre PAS en caisse
 function calcChange(){
     const received = parseInt(document.getElementById('cashReceived').value) || 0;
     state.paymentReceived = received;
@@ -1398,7 +1387,6 @@ function calcChange(){
         } else { infoEl.textContent = ''; }
     }
 }
-
 function useAcompte(){
     const pending=state.acomptes.filter(a=>a.status==='pending'&&a.remaining>0);
     if(pending.length===0){showToast('Aucun acompte disponible','info');return;}
@@ -1416,7 +1404,6 @@ function useAcompte(){
     el.textContent=`🎁 Acompte ${ac.name} appliqué : -${fmt(applied)}`;
     calcChange();
 }
-
 function confirmSale(){
     if(state.cart.length===0) return;
     const received = state.paymentReceived || parseInt(document.getElementById('cashReceived').value) || 0;
@@ -1441,9 +1428,7 @@ function confirmSale(){
         total, cost, profit:total-cost,
         received: received + acompteAmt,
         cashReceived: received,
-        cashIn: cashIn,
-        cashOut: 0,
-        change: change,
+        cashIn: cashIn, cashOut: 0, change: change,
         acompteUsed: acompteAmt,
         acompteId: state.acompteApplied ? state.acompteApplied.id : null
     };
@@ -1466,12 +1451,9 @@ function confirmSale(){
     if(navigator.vibrate)navigator.vibrate([50,50,50]);
     showToast(`✅ Vente ${fmt(total)} • Monnaie : ${fmt(change)}`,'success',3500);
     setTimeout(()=>{
-        if(confirm(`Vente de ${fmt(total)} enregistrée.\n\n💰 En caisse : ${fmt(cashIn)}\n💸 Monnaie à rendre : ${fmt(change)}\n\nVoir le reçu ?`)){
-            showReceipt(tx);
-        }
+        if(confirm(`Vente de ${fmt(total)} enregistrée.\n\n💰 En caisse : ${fmt(cashIn)}\n💸 Monnaie à rendre : ${fmt(change)}\n\nVoir le reçu ?`)) showReceipt(tx);
     },300);
 }
-
 function showReceipt(tx){
     const lines=tx.items.map(i=>`${i.name} x${i.quantity} = ${fmt(i.price*i.quantity)}`).join('\n');
     const receipt=`================================
@@ -1492,7 +1474,6 @@ Merci de votre visite ! 🥖
 ================================`;
     alert(receipt);
 }
-
 function openCreditSale(){
     if(state.cart.length===0) return;
     document.getElementById('creditSaleTotal').textContent=fmt(getCartTotal());
@@ -1532,7 +1513,6 @@ function confirmCreditSale(){
     renderCart();closeModal('creditSale');renderProducts();updateHeaderStats();
     showToast(`💳 Crédit : ${name} - ${fmt(total)}`,'success',3000);
 }
-
 function openRemboursement(creditId){
     const c=state.credits.find(x=>x.id===creditId);if(!c)return;
     state.remboursementCreditId=creditId;
@@ -1572,7 +1552,6 @@ function confirmRemboursement(){
     closeModal('remboursement');renderClients();updateHeaderStats();
     showToast(`✅ Remboursement : ${fmt(amt)}`,'success',2500);
 }
-
 function openRetour(){
     const sel=document.getElementById('retourProduct');
     sel.innerHTML='<option value="">-- Choisir --</option>'+state.products.map(p=>`<option value="${p.id}">${esc(p.emoji)} ${esc(p.name)} - ${fmt(p.price)}</option>`).join('');
@@ -1609,7 +1588,6 @@ function confirmRetour(){
     closeModal('retour');renderProducts();renderStock();updateHeaderStats();
     showToast(`↩️ Retour : ${fmt(total)} rendu`,'success');
 }
-
 function openPerteModal(){
     const sel=document.getElementById('perteProduct');
     sel.innerHTML='<option value="">-- Choisir --</option>'+state.products.map(p=>`<option value="${p.id}">${esc(p.emoji)} ${esc(p.name)} (coût ${fmt(p.cost)})</option>`).join('');
@@ -1645,7 +1623,6 @@ function confirmPerte(){
     closeModal('perte');renderProducts();renderStock();updateHeaderStats();
     showToast(`📉 Perte : ${fmt(lossValue)}`,'info');
 }
-
 function confirmDepense(){
     const reason=document.getElementById('depenseReason').value.trim();
     const amount=parseInt(document.getElementById('depenseAmount').value);
@@ -1712,9 +1689,6 @@ function confirmAcompte(){
     showToast(`🎁 Acompte : ${name}`,'success');
 }
 
-// ============================================================
-// STOCK
-// ============================================================
 function renderStock(){
     const list=document.getElementById('stockList');
     const alerts=document.getElementById('stockAlerts');
@@ -1790,9 +1764,6 @@ function addNewProduct(){
     ['newProductName','newProductEmoji','newProductPrice','newProductCost','newProductStock'].forEach(id=>document.getElementById(id).value='');
 }
 
-// ============================================================
-// CLIENTS
-// ============================================================
 function setClientFilter(f){
     state.clientFilter=f;
     document.querySelectorAll('[data-clientfilter]').forEach(b=>b.classList.toggle('active',b.dataset.clientfilter===f));
@@ -1863,9 +1834,6 @@ function deleteAcompte(aid){
     saveAcomptes();renderClients();
 }
 
-// ============================================================
-// HISTORIQUE
-// ============================================================
 function setTxFilter(f){
     state.txFilter=f;
     document.querySelectorAll('[data-txfilter]').forEach(b=>b.classList.toggle('active',b.dataset.txfilter===f));
@@ -1911,15 +1879,10 @@ function renderTx(t){
     if(t.type==='vente_credit'&&t.clientName){details=`👤 ${esc(t.clientName)} — ${details}`;}
     const sessionIcon=t.session==='matin'?'☀️':'🌙';
     let cashInfo = '';
-    if(t.type==='vente'){
-        cashInfo = `<span>💰 Caisse: ${fmt(t.cashIn!==undefined?t.cashIn:t.total)}</span><span>💸 Monnaie: ${fmt(t.change)}</span>`;
-    }
+    if(t.type==='vente'){cashInfo = `<span>💰 Caisse: ${fmt(t.cashIn!==undefined?t.cashIn:t.total)}</span><span>💸 Monnaie: ${fmt(t.change)}</span>`;}
     return `<div class="tx-item ${info.cls}">
         <div class="tx-header">
-            <div>
-                <div class="tx-type">${info.icon} ${info.label}</div>
-                <div class="tx-date">${sessionIcon} ${fmtDateTime(t.date)} • ${esc(t.cashier||'')}</div>
-            </div>
+            <div><div class="tx-type">${info.icon} ${info.label}</div><div class="tx-date">${sessionIcon} ${fmtDateTime(t.date)} • ${esc(t.cashier||'')}</div></div>
             <div class="tx-amount ${amountCls}">${amountStr}</div>
         </div>
         ${details?`<div class="tx-details">${details}</div>`:''}
@@ -1929,9 +1892,6 @@ function renderTx(t){
     </div>`;
 }
 
-// ============================================================
-// STATS
-// ============================================================
 function getDayStats(dateKey){
     const txs=state.txs.filter(t=>t.dateKey===dateKey);
     let ca=0,profit=0,cashIn=0,cashOut=0,creditSales=0,morning=0,evening=0,txCount=0,revenueItems={};
@@ -1942,13 +1902,11 @@ function getDayStats(dateKey){
             txCount++;
             if(t.session==='matin') morning+=t.total; else evening+=t.total;
             t.items.forEach(i=>{revenueItems[i.name]=(revenueItems[i.name]||0)+i.quantity;});
-        }
-        else if(t.type==='vente_credit'){
+        } else if(t.type==='vente_credit'){
             ca+=t.total;profit+=t.profit;creditSales+=t.total;txCount++;
             if(t.session==='matin') morning+=t.total; else evening+=t.total;
             t.items.forEach(i=>{revenueItems[i.name]=(revenueItems[i.name]||0)+i.quantity;});
-        }
-        else if(t.type==='remboursement_credit'){cashIn += (t.cashIn !== undefined ? t.cashIn : t.total);}
+        } else if(t.type==='remboursement_credit'){cashIn += (t.cashIn !== undefined ? t.cashIn : t.total);}
         else if(t.type==='retour'||t.type==='annulation'){ca-=t.total;profit+=t.profit;cashOut += (t.cashOut !== undefined ? t.cashOut : t.total);}
         else if(t.type==='perte'){profit-=t.cost;}
         else if(t.type==='depense'||t.type==='retrait_caisse'){cashOut += (t.cashOut !== undefined ? t.cashOut : (t.amount||t.total));}
@@ -1978,9 +1936,6 @@ function updateHeaderStats(){
     document.getElementById('statProfit').textContent=fmtN(s.profit)+' F';
 }
 
-// ============================================================
-// CLÔTURE
-// ============================================================
 function openClosing(){
     const s=getDayStats(todayKey());
     const creditsOpen=state.credits.filter(c=>c.status!=='paid'&&c.createdAt.startsWith(todayKey())).reduce((a,c)=>a+c.remaining,0);
@@ -2012,7 +1967,7 @@ function openClosing(){
         <div class="closing-row total"><span>💵 CAISSE THÉORIQUE</span><span>${fmt(s.expectedCash)}</span></div>
         <div class="form-group" style="margin-top:20px;">
             <label class="form-label">Montant réel compté</label>
-            <input type="number" class="form-input" id="realCash" placeholder="0" style="font-size:20px;text-align:center;font-weight:800;" oninput="calcEcart(${s.expectedCash})">
+            <input type="number" class="form-input" id="realCash" placeholder="Ex: 45000" style="font-size:20px;text-align:center;font-weight:800;" oninput="calcEcart(${s.expectedCash})">
         </div>
         <div class="cash-display" style="margin-top:10px;">
             <div class="cash-label">Écart</div>
@@ -2053,10 +2008,7 @@ function showClosings(){
         c.innerHTML=[...state.closings].reverse().slice(0,50).map(cl=>`
             <div class="client-card">
                 <div class="client-header">
-                    <div>
-                        <div class="client-name">${fmtDateTime(cl.date)}</div>
-                        <div class="client-date">${esc(cl.user)}</div>
-                    </div>
+                    <div><div class="client-name">${fmtDateTime(cl.date)}</div><div class="client-date">${esc(cl.user)}</div></div>
                     <div class="client-amount ${cl.ecart===0?'paid':''}" style="color:${cl.ecart===0?'#43A047':cl.ecart<0?'#E53935':'#FB8C00'}">${cl.ecart>=0?'+':''}${fmt(cl.ecart)}</div>
                 </div>
                 <div style="font-size:11px;color:#666;margin-top:6px;">Théo: ${fmt(cl.theorique)} • Réel: ${fmt(cl.reel)}</div>
@@ -2066,9 +2018,6 @@ function showClosings(){
     document.getElementById('modal-closings').classList.add('visible');
 }
 
-// ============================================================
-// EXPORT / IMPORT
-// ============================================================
 function exportData(){
     const data={version:VERSION,exportDate:nowISO(),config:state.config,products:state.products,txs:state.txs,credits:state.credits,acomptes:state.acomptes,closings:state.closings,audit:state.audit};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
@@ -2106,9 +2055,6 @@ function handleImport(e){
     reader.readAsText(file);
 }
 
-// ============================================================
-// CONFIG / PIN / BOULANGERIE
-// ============================================================
 function openBoulangerieModal(){
     if(state.currentUser!=='patron'){showToast('❌ Seul le patron peut modifier la boulangerie','error');return;}
     document.getElementById('boulangerieName').value = state.config.nom;
@@ -2146,8 +2092,8 @@ function savePins(){
     if (!/^\d{4}$/.test(p1)) { showToast('PIN Patron : 4 chiffres', 'error'); return; }
     if (!/^\d{4}$/.test(p2)) { showToast('PIN Caissier : 4 chiffres', 'error'); return; }
     if (p1 === p2) { showToast('PIN différents obligatoires', 'error'); return; }
-    state.config.pinPatron = p1;
-    state.config.pinCaissier = p2;
+    state.config.pinPatronHash = hashPin(p1);
+    state.config.pinCaissierHash = hashPin(p2);
     saveConfig();
     closeModal('pin');
     showToast('✅ PIN modifiés', 'success');
@@ -2175,12 +2121,9 @@ function showAuditLog(){
     }
     document.getElementById('modal-auditLog').classList.add('visible');
 }
-
-// ⭐ Restriction caissier : Modifier boulangerie + Changer PIN
 function renderSettingsSection(){
     const el = document.getElementById('adminSection');
     const patronEl = document.getElementById('patronOnlySection');
-    
     if (state.currentUser === 'patron') {
         el.innerHTML = `<div class="alert alert-info">👑 Mode Patron • Accès complet</div>`;
         if (patronEl) {
@@ -2193,18 +2136,11 @@ function renderSettingsSection(){
     } else {
         el.innerHTML = `<div class="alert alert-warning">👤 Mode Caissier • Accès limité</div>`;
         if (patronEl) {
-            patronEl.innerHTML = `
-                <div class="alert alert-info" style="font-size:11px;margin-top:10px;">
-                    ℹ️ Seul le patron peut modifier la boulangerie, changer les PIN et réinitialiser.
-                </div>
-            `;
+            patronEl.innerHTML = `<div class="alert alert-info" style="font-size:11px;margin-top:10px;">ℹ️ Seul le patron peut modifier la boulangerie, changer les PIN et réinitialiser.</div>`;
         }
     }
 }
 
-// ============================================================
-// MODALS / TOAST
-// ============================================================
 function openModal(name){document.getElementById('modal-'+name).classList.add('visible');}
 function closeModal(name){document.getElementById('modal-'+name).classList.remove('visible');}
 function showToast(msg,type='success',dur=2200){
@@ -2213,16 +2149,12 @@ function showToast(msg,type='success',dur=2200){
     document.body.appendChild(t);
     setTimeout(()=>{t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translate(-50%,-20px)';setTimeout(()=>t.remove(),300);},dur);
 }
-
 function updateClock(){
     const n=new Date();
     document.getElementById('currentTime').textContent=n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
     document.getElementById('currentDate').textContent=n.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'});
 }
 
-// ============================================================
-// PWA
-// ============================================================
 function installPWA(){
     if(!state.deferredPrompt){showToast('Utilisez le menu navigateur','info');return;}
     state.deferredPrompt.prompt();
@@ -2247,15 +2179,15 @@ function registerSW(){
     }
 }
 
-// ============================================================
-// DÉMARRAGE
-// ============================================================
 document.addEventListener('DOMContentLoaded',()=>{
     window.addEventListener('error',e=>console.error('Err:',e.message));
+    checkDateManipulation();
     initData();
     updateClock();
     setInterval(updateClock,1000);
     setInterval(updateSessionBadge,60000);
+    setInterval(updateTrialBanner,60000);
+    setInterval(checkTrialAlerts, 60*60*1000);
     setTimeout(()=>document.getElementById('splashScreen').classList.add('hide'), 2200);
     window.addEventListener('beforeinstallprompt',(e)=>{
         e.preventDefault();
@@ -2276,18 +2208,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     });
     setTimeout(()=>{
         registerSW();
-        
         const aboutDevice = document.getElementById('aboutDeviceId');
         if (aboutDevice) aboutDevice.textContent = `📱 ID Appareil : ${getCurrentDeviceId()}`;
-        
         if(!state.config.installed){showOnboarding();return;}
         if(!checkLicence()) return;
-        
         document.getElementById('lockTitle').textContent = state.config.nom;
         document.getElementById('lockScreen').classList.add('show');
     }, 2300);
-    
-    setInterval(checkLicenceAlert, 60*60*1000);
 });
 </script>
 </body>
