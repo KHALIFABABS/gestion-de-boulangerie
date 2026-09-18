@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔐 Générateur de Licences v3 - Boulangerie Prestige</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#8B4513 0%,#5D2E0C 100%);min-height:100vh;padding:30px 20px;color:#2d1b0e}
+.container{max-width:900px;margin:0 auto}
+.header{text-align:center;margin-bottom:25px;color:#F5DEB3}
+.header-icon{font-size:70px;margin-bottom:10px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.header h1{font-size:26px;font-weight:800;margin-bottom:8px}
+.header p{font-size:14px;color:#D2B48C}
+.tabs{display:flex;gap:8px;margin-bottom:20px}
+.tab{flex:1;padding:12px;background:rgba(245,222,179,.15);border:2px solid rgba(245,222,179,.3);color:#F5DEB3;border-radius:14px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.tab.active{background:#F5DEB3;color:#8B4513;border-color:#F5DEB3}
+.card{background:white;border-radius:24px;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.3);margin-bottom:20px;display:none}
+.card.active{display:block}
+.card-title{font-size:19px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:#8B4513}
+.alert{padding:14px 18px;border-radius:14px;margin-bottom:15px;font-size:12px;font-weight:600;line-height:1.6}
+.alert-info{background:#e3f2fd;color:#1565C0;border-left:4px solid #42A5F5}
+.alert-warning{background:#fff8e1;color:#E65100;border-left:4px solid #FFB74D}
+.alert-success{background:#e8f5e9;color:#1B5E20;border-left:4px solid #43A047}
+.alert-danger{background:#ffebee;color:#C62828;border-left:4px solid #E53935}
+.form-group{display:flex;flex-direction:column;margin-bottom:15px}
+.form-label{font-size:11px;font-weight:700;color:#8B4513;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.form-input,.form-select{padding:14px;border:2px solid #f0e8dd;border-radius:14px;font-size:15px;outline:none;background:#fdfaf6;font-family:inherit}
+.form-input:focus,.form-select:focus{border-color:#8B4513;background:white}
+.form-input.mono{font-family:'Courier New',monospace;letter-spacing:2px;text-transform:uppercase;font-weight:700;text-align:center;font-size:16px}
+.btn{padding:16px 24px;border:none;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit;width:100%}
+.btn-primary{background:linear-gradient(135deg,#8B4513,#A0522D);color:#F5DEB3;box-shadow:0 8px 20px rgba(139,69,19,.3)}
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-success{background:linear-gradient(135deg,#43A047,#2E7D32);color:white;box-shadow:0 8px 20px rgba(67,160,71,.3)}
+.btn-success:hover{transform:translateY(-2px)}
+.btn-secondary{background:#f5f0e8;color:#8B4513;margin-top:10px}
+.btn-copy{background:#43A047;color:white;padding:8px 14px;border-radius:10px;font-size:11px;font-weight:700;border:none;cursor:pointer;font-family:inherit}
+.btn-copy.copied{background:#1B5E20}
+.licence-result{background:#f5f0e8;border-radius:16px;padding:20px;margin-top:20px;border:2px dashed #8B4513;text-align:center}
+.licence-result.success{background:#e8f5e9;border-color:#43A047}
+.licence-code{font-family:'Courier New',monospace;font-size:22px;font-weight:800;color:#8B4513;letter-spacing:2px;margin:15px 0;word-break:break-all;padding:12px;background:white;border-radius:10px}
+.licence-info{font-size:13px;color:#666;line-height:1.8}
+.licence-info strong{color:#8B4513}
+.action-row{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.action-row .btn{flex:1;min-width:140px}
+.batch-list{max-height:400px;overflow-y:auto;margin-top:15px;background:#f9f5f0;border-radius:14px;padding:15px}
+.batch-item{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:white;border-radius:10px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.04);gap:10px;flex-wrap:wrap}
+.batch-item .info{flex:1;min-width:200px}
+.batch-item .device{font-size:10px;color:#8B4513;font-family:monospace;font-weight:700}
+.batch-item .code{font-family:'Courier New',monospace;font-size:13px;font-weight:800;color:#2d1b0e;word-break:break-all;margin-top:4px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}
+.stat-box{background:#f5f0e8;border-radius:12px;padding:12px;text-align:center}
+.stat-num{font-size:22px;font-weight:800;color:#8B4513}
+.stat-label{font-size:10px;color:#999;text-transform:uppercase;letter-spacing:.5px;margin-top:4px}
+.footer{text-align:center;color:#D2B48C;font-size:11px;margin-top:30px;line-height:1.8}
+.step-guide{background:#f9f5f0;border-radius:14px;padding:16px;margin-bottom:15px;font-size:12px;color:#666;line-height:1.8}
+.step-guide strong{color:#8B4513}
+.step-num{display:inline-flex;width:22px;height:22px;background:#8B4513;color:white;border-radius:50%;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin-right:6px}
+.id-preview{background:#fff8e1;padding:10px;border-radius:10px;font-family:monospace;font-size:13px;text-align:center;color:#8B4513;font-weight:700;margin-top:8px;word-break:break-all}
+@media(max-width:600px){.stat-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+    
+    <div class="header">
+        <div class="header-icon">🔐</div>
+        <h1>Générateur de Licences v3</h1>
+        <p>Boulangerie Prestige - Outil propriétaire</p>
+    </div>
+
+    <div class="alert alert-danger">
+        🚨 <strong>NE JAMAIS PARTAGER CE FICHIER</strong> — Il contient la clé secrète de votre business.
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('licence')">🎫 Licence client</button>
+        <button class="tab" onclick="switchTab('reset')">🔄 Code transfert</button>
+    </div>
+
+    <!-- ONGLET LICENCE -->
+    <div class="card active" id="card-licence">
+        <div class="card-title">🎫 Générer une licence pour un client</div>
+        
+        <div class="step-guide">
+            <div><span class="step-num">1</span>Le client installe l'app et vous envoie son <strong>ID téléphone</strong> par WhatsApp</div>
+            <div><span class="step-num">2</span>Vous collez l'ID ci-dessous</div>
+            <div><span class="step-num">3</span>Vous générez et envoyez la licence</div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">📱 ID téléphone du client *</label>
+            <input type="text" class="form-input mono" id="deviceId" placeholder="TEL-XXXX-XXXX-XXXX" maxlength="20" oninput="validateDeviceId()" autocomplete="off">
+            <div id="deviceStatus" style="font-size:11px;margin-top:6px;font-weight:700;"></div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nom du client (info)</label>
+            <input type="text" class="form-input" id="clientName" placeholder="Ex: Boulangerie Le Baobab">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Année d'expiration</label>
+            <select class="form-select" id="expireYear">
+                <option value="2025">Fin 2025</option>
+                <option value="2026" selected>Fin 2026</option>
+                <option value="2027">Fin 2027</option>
+                <option value="2028">Fin 2028</option>
+                <option value="2029">Fin 2029</option>
+                <option value="2030">Fin 2030</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="generateOne()">✨ Générer la licence</button>
+
+        <div id="resultOne" style="display:none;">
+            <div class="licence-result success">
+                <div class="licence-info">Licence pour : <strong id="resultClient"></strong></div>
+                <div class="licence-info">Liée à : <strong id="resultDevice"></strong></div>
+                <div class="licence-code" id="resultCode">---</div>
+                <div class="licence-info">
+                    Expire le : <strong id="resultExpire"></strong><br>
+                    Générée le : <strong id="resultDate"></strong>
+                </div>
+                <div class="action-row" style="justify-content:center;">
+                    <button class="btn-copy" onclick="copyOne()">📋 Copier</button>
+                    <button class="btn-copy" onclick="generateWhatsApp()">💬 WhatsApp</button>
+                </div>
+            </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid #f0e8dd;margin:25px 0;">
+
+        <div class="card-title" style="font-size:16px;">📦 Générer plusieurs licences (avec IDs)</div>
+        <div class="alert alert-info" style="font-size:11px;">
+            💡 Collez les IDs des clients, un par ligne. Le générateur créera une licence unique pour chacun.
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Liste des IDs (un par ligne)</label>
+            <textarea class="form-input" id="batchDeviceIds" rows="6" placeholder="TEL-A7F3-B9X2-K4M9&#10;TEL-B8E2-C3D1-N5P8&#10;TEL-D9F1-E4A6-Q2R7" style="font-family:monospace;font-size:13px;resize:vertical;min-height:120px;"></textarea>
+            <div class="form-hint" id="batchCountHint">0 ID détecté(s)</div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Année d'expiration</label>
+            <select class="form-select" id="batchYear">
+                <option value="2025">Fin 2025</option>
+                <option value="2026" selected>Fin 2026</option>
+                <option value="2027">Fin 2027</option>
+                <option value="2028">Fin 2028</option>
+            </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="generateBatch()">🎁 Générer le lot</button>
+
+        <div id="resultBatch" style="display:none;">
+            <div class="stat-row">
+                <div class="stat-box"><div class="stat-num" id="batchTotal">0</div><div class="stat-label">Licences</div></div>
+                <div class="stat-box"><div class="stat-num" id="batchYearDisplay">2026</div><div class="stat-label">Expire</div></div>
+                <div class="stat-box"><div class="stat-num" id="batchValue">0 F</div><div class="stat-label">Valeur</div></div>
+            </div>
+            <div class="action-row">
+                <button class="btn btn-secondary" style="background:#42A5F5;color:white;" onclick="copyBatch()">📋 Copier tout</button>
+                <button class="btn btn-secondary" style="background:#FB8C00;color:white;" onclick="downloadBatch()">📥 Télécharger</button>
+            </div>
+            <div class="batch-list" id="batchList"></div>
+        </div>
+    </div>
+
+    <!-- ONGLET RESET -->
+    <div class="card" id="card-reset">
+        <div class="card-title">🔄 Code de transfert</div>
+        
+        <div class="alert alert-info">
+            💡 Utilisez ce code quand un client <strong>change de téléphone</strong>.<br>
+            Le client entre ce code dans l'app + sa licence d'origine → la licence est transférée au nouveau téléphone.
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nom du client</label>
+            <input type="text" class="form-input" id="resetClientName" placeholder="Ex: Boulangerie Le Baobab">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nombre de codes</label>
+            <input type="number" class="form-input" id="resetCount" value="1" min="1" max="20">
+        </div>
+
+        <button class="btn btn-success" onclick="generateReset()">🔄 Générer code(s) de transfert</button>
+
+        <div id="resultReset" style="display:none;">
+            <div class="licence-result success">
+                <div class="licence-info">Codes de transfert pour : <strong id="resetClientDisplay"></strong></div>
+                <div id="resetCodesList" style="margin:15px 0;"></div>
+                <div class="action-row" style="justify-content:center;">
+                    <button class="btn-copy" onclick="copyReset()">📋 Copier</button>
+                    <button class="btn-copy" onclick="generateResetWhatsApp()">💬 WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        🥖 Boulangerie Prestige v4.3<br>
+        Générateur propriétaire v3 — Ne pas diffuser<br>
+        Support : +221 XX XXX XX XX
+    </div>
+
+</div>
+
+<script>
+// ============================================================
+// 🔑 CLÉ SECRÈTE — DOIT ÊTRE IDENTIQUE À CELLE DE L'APP CLIENTE
+// NE JAMAIS PARTAGER
+// ============================================================
+const SECRET_KEY = 'BP2026-DAKAR-SECRET-KEY-CHANGE-ME';
+
+// ============================================================
+// FONCTIONS DE CHIFFREMENT (identiques à l'app cliente)
+// ============================================================
+function simpleHash(str){
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for(let i = 0; i < str.length; i++){
+        const ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (h2 >>> 0).toString(36) + (h1 >>> 0).toString(36);
+}
+
+function generateSignature(deviceId, year){
+    const input = `${deviceId.toUpperCase()}|${year}|${SECRET_KEY}`;
+    let hash = simpleHash(input).toUpperCase();
+    hash = hash + simpleHash(input + hash).toUpperCase();
+    const sig = (hash.slice(0,4) + hash.slice(-4)).toUpperCase().replace(/[^A-Z0-9]/g,'0');
+    return sig.slice(0, 8);
+}
+
+function generateRandomBlock(){
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let block = '';
+    for (let i = 0; i < 4; i++) block += chars.charAt(Math.floor(Math.random() * chars.length));
+    return block;
+}
+
+// ============================================================
+// VALIDATION ID TÉLÉPHONE
+// ============================================================
+function isValidDeviceId(id){
+    return /^TEL-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(id.toUpperCase().trim());
+}
+
+function validateDeviceId(){
+    const input = document.getElementById('deviceId');
+    const status = document.getElementById('deviceStatus');
+    const val = input.value.toUpperCase().trim();
+    
+    if(!val){
+        status.textContent = '';
+        status.style.color = '';
+        return;
+    }
+    
+    if(isValidDeviceId(val)){
+        status.textContent = '✅ ID valide';
+        status.style.color = '#43A047';
+    } else {
+        status.textContent = '❌ Format invalide. Attendu : TEL-XXXX-XXXX-XXXX';
+        status.style.color = '#E53935';
+    }
+}
+
+// ============================================================
+// GÉNÉRATION LICENCE UNIQUE
+// ============================================================
+function generateOne(){
+    const deviceId = document.getElementById('deviceId').value.toUpperCase().trim();
+    const client = document.getElementById('clientName').value.trim() || 'Client sans nom';
+    const year = document.getElementById('expireYear').value;
+    
+    if(!deviceId){
+        showToast('❌ Entrez l\'ID du téléphone client', 'error');
+        return;
+    }
+    
+    if(!isValidDeviceId(deviceId)){
+        showToast('❌ ID invalide. Format : TEL-XXXX-XXXX-XXXX', 'error');
+        return;
+    }
+    
+    const block1 = generateRandomBlock();
+    const block2 = generateRandomBlock();
+    const signature = generateSignature(deviceId, year);
+    const code = `BAK-${block1}-${block2}-${year}-${signature}`;
+    
+    const now = new Date();
+    const expireDate = `31/12/${year}`;
+    
+    document.getElementById('resultClient').textContent = client;
+    document.getElementById('resultDevice').textContent = deviceId;
+    document.getElementById('resultCode').textContent = code;
+    document.getElementById('resultExpire').textContent = expireDate;
+    document.getElementById('resultDate').textContent = now.toLocaleDateString('fr-FR', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
+    document.getElementById('resultOne').style.display = 'block';
+    
+    window._lastLicence = {code, client, deviceId, expireDate, year};
+    
+    // Sauvegarder dans l'historique
+    saveToHistory({code, client, deviceId, year, date: nowISO()});
+    
+    showToast('✅ Licence générée !', 'success');
+}
+
+function copyOne(){
+    const code = document.getElementById('resultCode').textContent;
+    if (!code || code === '---') return;
+    copyToClipboard(code);
+    showToast('📋 Copié !', 'success');
+}
+
+function generateWhatsApp(){
+    const l = window._lastLicence;
+    if (!l) return;
+    const message = `🔐 *Licence Boulangerie Prestige*
+
+Bonjour ${l.client},
+
+✅ Votre licence est prête !
+
+*Clé de licence :*
+*${l.code}*
+
+📅 Valide jusqu'au : ${l.expireDate}
+
+⚠️ Cette licence est liée à votre téléphone (${l.deviceId}).
+
+📱 *Pour activer :*
+1. Ouvrez l'application
+2. Collez le code ci-dessus
+3. Validez
+
+💡 Le code ne fonctionnera QUE sur votre téléphone.
+
+Support : +221 XX XXX XX XX`;
+    copyToClipboard(message);
+    showToast('💬 WhatsApp copié !', 'success');
+}
+
+// ============================================================
+// GÉNÉRATION LOT
+// ============================================================
+document.getElementById('batchDeviceIds').addEventListener('input', () => {
+    const lines = document.getElementById('batchDeviceIds').value.split('\n').filter(l => l.trim());
+    document.getElementById('batchCountHint').textContent = `${lines.length} ID détecté(s)`;
+});
+
+function generateBatch(){
+    const rawInput = document.getElementById('batchDeviceIds').value;
+    const year = document.getElementById('batchYear').value;
+    
+    const deviceIds = rawInput.split('\n').map(l => l.trim().toUpperCase()).filter(l => l);
+    
+    if(deviceIds.length === 0){
+        showToast('❌ Entrez au moins un ID', 'error');
+        return;
+    }
+    
+    const invalid = deviceIds.filter(id => !isValidDeviceId(id));
+    if(invalid.length > 0){
+        showToast(`❌ ${invalid.length} ID(s) invalide(s)`, 'error');
+        return;
+    }
+    
+    const licences = deviceIds.map(deviceId => {
+        const block1 = generateRandomBlock();
+        const block2 = generateRandomBlock();
+        const signature = generateSignature(deviceId, year);
+        return {
+            deviceId,
+            code: `BAK-${block1}-${block2}-${year}-${signature}`
+        };
+    });
+    
+    window._lastBatch = licences;
+    
+    document.getElementById('batchTotal').textContent = licences.length;
+    document.getElementById('batchYearDisplay').textContent = year;
+    document.getElementById('batchValue').textContent = (licences.length * 75) + 'k';
+    
+    const list = document.getElementById('batchList');
+    list.innerHTML = licences.map((l, i) => `
+        <div class="batch-item">
+            <div class="info">
+                <div class="device">📱 ${l.deviceId}</div>
+                <div class="code">${l.code}</div>
+            </div>
+            <button class="btn-copy" onclick="copyToClipboard('${l.code}');this.textContent='✅';this.classList.add('copied');setTimeout(()=>{this.textContent='📋';this.classList.remove('copied');},1500);">📋</button>
+        </div>
+    `).join('');
+    
+    document.getElementById('resultBatch').style.display = 'block';
+    
+    // Sauvegarder dans l'historique
+    licences.forEach(l => saveToHistory({...l, client: 'Lot', year, date: nowISO()}));
+    
+    showToast(`✅ ${licences.length} licences générées !`, 'success');
+}
+
+function copyBatch(){
+    if(!window._lastBatch) return;
+    const text = window._lastBatch.map(l => `${l.deviceId} → ${l.code}`).join('\n');
+    copyToClipboard(text);
+    showToast('📋 Copié !', 'success');
+}
+
+function downloadBatch(){
+    if(!window._lastBatch) return;
+    const year = document.getElementById('batchYear').value;
+    const now = new Date();
+    const header = `# Licences Boulangerie Prestige v4.3
+# Générées le : ${now.toLocaleString('fr-FR')}
+# Nombre : ${window._lastBatch.length}
+# Expire : 31/12/${year}
+# Prix : 75 000 FCFA par licence
+# ----------------------------------------
+# Format : ID_TELEPHONE → LICENCE
+# ----------------------------------------
+
+`;
+    const content = header + window._lastBatch.map(l => `${l.deviceId} → ${l.code}`).join('\n');
+    const blob = new Blob([content], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `licences-${year}-${now.getTime()}.txt`; a.click();
+    URL.revokeObjectURL(url);
+    showToast('📥 Téléchargé !', 'success');
+}
+
+// ============================================================
+// CODES DE TRANSFERT
+// ============================================================
+function generateReset(){
+    const client = document.getElementById('resetClientName').value.trim() || 'Client';
+    const count = parseInt(document.getElementById('resetCount').value);
+    
+    if (!count || count < 1 || count > 20) {
+        showToast('❌ Nombre entre 1 et 20', 'error');
+        return;
+    }
+    
+    const codes = [];
+    for (let i = 0; i < count; i++) {
+        codes.push(`RESET-${generateRandomBlock()}-${generateRandomBlock()}`);
+    }
+    
+    window._lastResetCodes = codes;
+    
+    document.getElementById('resetClientDisplay').textContent = client;
+    document.getElementById('resetCodesList').innerHTML = codes.map(code => 
+        `<div style="font-family:monospace;font-size:18px;font-weight:800;color:#2E7D32;padding:8px;background:white;border-radius:10px;margin:6px 0;letter-spacing:2px;">${code}</div>`
+    ).join('');
+    document.getElementById('resultReset').style.display = 'block';
+    showToast(`✅ ${count} code(s) généré(s) !`, 'success');
+}
+
+function copyReset(){
+    if (!window._lastResetCodes) return;
+    copyToClipboard(window._lastResetCodes.join('\n'));
+    showToast('📋 Copié !', 'success');
+}
+
+function generateResetWhatsApp(){
+    const client = document.getElementById('resetClientDisplay').textContent;
+    if (!window._lastResetCodes) return;
+    const message = `🔄 *Code de transfert - Boulangerie Prestige*
+
+Bonjour ${client},
+
+Voici votre code de transfert pour changer de téléphone :
+
+*${window._lastResetCodes[0]}*
+
+⚠️ Instructions :
+1. Ouvrez l'application sur votre NOUVEAU téléphone
+2. Il affichera votre nouvel ID : TEL-XXXX-XXXX-XXXX
+3. Envoyez-moi ce nouvel ID
+4. Je vous enverrai une nouvelle licence
+
+Support : +221 XX XXX XX XX`;
+    copyToClipboard(message);
+    showToast('💬 WhatsApp copié !', 'success');
+}
+
+// ============================================================
+// UTILITAIRES
+// ============================================================
+function switchTab(t){
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.card').forEach(x => x.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('card-' + t).classList.add('active');
+}
+
+function copyToClipboard(text){
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+}
+
+function showToast(msg, type = 'success'){
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed; top: 30px; left: 50%; transform: translateX(-50%);
+        padding: 14px 24px; border-radius: 14px; font-weight: 700; font-size: 13px;
+        z-index: 10000; color: white; box-shadow: 0 10px 30px rgba(0,0,0,.3);
+        background: ${type === 'success' ? 'linear-gradient(135deg, #66BB6A, #43A047)' : type === 'error' ? 'linear-gradient(135deg, #EF5350, #E53935)' : 'linear-gradient(135deg, #42A5F5, #1E88E5)'};
+        max-width: 90%; text-align: center;
+    `;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.transition = 'opacity .3s, transform .3s';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translate(-50%, -20px)';
+        setTimeout(() => toast.remove(), 300);
+    }, 2200);
+}
+
+function nowISO(){ return new Date().toISOString(); }
+
+function saveToHistory(entry){
+    try {
+        const history = JSON.parse(localStorage.getItem('gen_history') || '[]');
+        history.unshift(entry);
+        if(history.length > 500) history = history.slice(0, 500);
+        localStorage.setItem('gen_history', JSON.stringify(history));
+    } catch (e) {}
+}
+</script>
+</body>
+</html>
