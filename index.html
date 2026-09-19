@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Boulangerie">
-<link rel="manifest" href="./manifest-boulangerie.json">
+<link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <title>Boulangerie Prestige</title>
 <style>
@@ -706,7 +706,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div style="text-align:center;padding:15px 0;">
             <div style="font-size:60px;">🥖</div>
             <div style="font-size:18px;font-weight:800;margin-top:10px;">Boulangerie Prestige</div>
-            <div style="font-size:12px;color:#999;margin-top:5px;">Version 5.0</div>
+            <div style="font-size:12px;color:#999;margin-top:5px;">Version 5.1</div>
         </div>
         <div style="font-size:12px;line-height:1.8;color:#666;">
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📱 Gestion de caisse pour boulangerie</div>
@@ -726,14 +726,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <script>
 // ============================================================
-// BOULANGERIE PRESTIGE v5.0
+// BOULANGERIE PRESTIGE v5.1 - Avec protection essai unique
 // ============================================================
-const VERSION = '5.0';
+const VERSION = '5.1';
 const KEYS = {
     products:'bp5_products', txs:'bp5_txs', credits:'bp5_credits',
     acomptes:'bp5_acomptes', audit:'bp5_audit', closings:'bp5_closings',
     settings:'bp5_settings', config:'bp5_config', licence:'bp5_licence',
-    deviceId:'bp5_device_id', lastDate:'bp5_last_date'
+    deviceId:'bp5_device_id', lastDate:'bp5_last_date',
+    fingerprint:'bp5_fingerprint', trialUsed:'bp5_trial_used'
 };
 
 const _k1 = [98,112,50,48,50,54];
@@ -769,25 +770,16 @@ let state = {
     products:[], txs:[], credits:[], acomptes:[], audit:[], closings:[],
     settings:{lastExport:null,lastImport:null},
     config:{
-        nom:'Boulangerie Prestige',
-        logo:'🥖',
-        phone:'',
-        address:'Dakar, Sénégal',
-        categories:[...DEFAULT_CATEGORIES],
-        pinPatronHash:null,
-        pinCaissierHash:null,
-        installed:false
+        nom:'Boulangerie Prestige',logo:'🥖',phone:'',address:'Dakar, Sénégal',
+        categories:[...DEFAULT_CATEGORIES],pinPatronHash:null,pinCaissierHash:null,installed:false
     },
-    licence:null,
-    deviceId:null,
+    licence:null, deviceId:null,
     cart:[], currentUser:null, currentSection:'vente', currentCategory:'Tous',
     searchTerm:'', txFilter:'all', clientFilter:'credits',
     pinBuffer:'', paymentReceived:0, acompteApplied:null, remboursementCreditId:null,
     deferredPrompt:null, onboardingStep:1, onboardingData:{},
-    trialAlerted:null,
-    reportPeriod: 'day',
-    customStartDate: null,
-    customEndDate: null
+    trialAlerted:null, reportPeriod: 'day',
+    customStartDate: null, customEndDate: null
 };
 
 // ============================================================
@@ -841,6 +833,106 @@ function generateDeviceId(){
 
 function getCurrentDeviceId(){ return localStorage.getItem(KEYS.deviceId) || generateDeviceId(); }
 
+// ============================================================
+// 🔐 PROTECTION ESSAI UNIQUE
+// ============================================================
+async function getDeviceFingerprint(){
+    const saved = localStorage.getItem(KEYS.fingerprint);
+    if(saved && /^FP-[A-Z0-9]{8}$/.test(saved)) return saved;
+    const factors = [
+        navigator.userAgent || 'unknown',
+        navigator.language || 'unknown',
+        (screen.width || 0) + 'x' + (screen.height || 0),
+        screen.colorDepth || 0,
+        new Date().getTimezoneOffset(),
+        navigator.hardwareConcurrency || 'unk',
+        navigator.platform || 'unk',
+        navigator.maxTouchPoints || 0
+    ].join('|');
+    let hash = 0x811c9dc5;
+    for(let i = 0; i < factors.length; i++){
+        hash ^= factors.charCodeAt(i);
+        hash = Math.imul(hash, 0x01000193);
+    }
+    let hash2 = 0xdeadbeef;
+    for(let i = factors.length - 1; i >= 0; i--){
+        hash2 = Math.imul(hash2 ^ factors.charCodeAt(i), 2654435761);
+    }
+    const h1 = Math.abs(hash).toString(36).toUpperCase().padStart(4, '0').slice(0, 4);
+    const h2 = Math.abs(hash2).toString(36).toUpperCase().padStart(4, '0').slice(0, 4);
+    const fingerprint = `FP-${h1}${h2}`;
+    localStorage.setItem(KEYS.fingerprint, fingerprint);
+    return fingerprint;
+}
+
+async function checkTrialUsed(){
+    const fingerprint = await getDeviceFingerprint();
+    const sources = [];
+    try { if(localStorage.getItem(KEYS.trialUsed)) sources.push('localStorage'); } catch(e){}
+    try { if(document.cookie.includes('bp5_trial_fp=')) sources.push('cookie'); } catch(e){}
+    try { if(await checkIndexedDB()) sources.push('indexedDB'); } catch(e){}
+    try { if(localStorage.getItem('bp5_trial_fp_marked') === fingerprint) sources.push('fingerprint'); } catch(e){}
+    try { if(sessionStorage.getItem('bp5_trial_session')) sources.push('sessionStorage'); } catch(e){}
+    return { used: sources.length > 0, sources: sources, fingerprint: fingerprint };
+}
+
+async function markTrialUsed(){
+    const fingerprint = await getDeviceFingerprint();
+    const date = nowISO();
+    try {
+        localStorage.setItem(KEYS.trialUsed, date);
+        localStorage.setItem('bp5_trial_fp_marked', fingerprint);
+    } catch(e){}
+    try {
+        document.cookie = `bp5_trial_fp=${fingerprint}; expires=Fri, 31 Dec 2099 23:59:59 GMT; path=/; SameSite=Lax`;
+        document.cookie = `bp5_trial_date=${date}; expires=Fri, 31 Dec 2099 23:59:59 GMT; path=/; SameSite=Lax`;
+    } catch(e){}
+    try { await saveToIndexedDB({ fingerprint, date, type: 'trial_used' }); } catch(e){}
+    try { sessionStorage.setItem('bp5_trial_session', date); } catch(e){}
+    logAudit('TRIAL_MARKED', `Empreinte: ${fingerprint}`);
+}
+
+function openIndexedDB(){
+    return new Promise((resolve, reject) => {
+        if(!window.indexedDB){ reject(new Error('IndexedDB non supporté')); return; }
+        const request = indexedDB.open('BoulangeriePrestigeDB', 1);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if(!db.objectStoreNames.contains('trial')){
+                db.createObjectStore('trial', { keyPath: 'id' });
+            }
+        };
+    });
+}
+
+function saveToIndexedDB(data){
+    return new Promise(async (resolve, reject) => {
+        try {
+            const db = await openIndexedDB();
+            const tx = db.transaction('trial', 'readwrite');
+            const store = tx.objectStore('trial');
+            const request = store.put({ id: 'trial_record', ...data });
+            request.onsuccess = () => resolve(true);
+            request.onerror = () => reject(request.error);
+        } catch(e) { reject(e); }
+    });
+}
+
+function checkIndexedDB(){
+    return new Promise(async (resolve) => {
+        try {
+            const db = await openIndexedDB();
+            const tx = db.transaction('trial', 'readonly');
+            const store = tx.objectStore('trial');
+            const request = store.get('trial_record');
+            request.onsuccess = () => resolve(!!request.result);
+            request.onerror = () => resolve(false);
+        } catch(e) { resolve(false); }
+    });
+}
+
 function addMonths(date, months){
     const d = new Date(date);
     const day = d.getDate();
@@ -859,7 +951,6 @@ function generateSignature(deviceId, durationStr){
 
 function verifyLicence(licenceCode){
     const currentDevice = getCurrentDeviceId();
-    
     const newPattern = /^BAK-([A-Z0-9]{4})-([A-Z0-9]{4})-(M\d{2})-([A-Z0-9]{8})$/;
     const newMatch = licenceCode.match(newPattern);
     if(newMatch){
@@ -874,7 +965,6 @@ function verifyLicence(licenceCode){
         const expirationDate = addMonths(activationDate, duration);
         return { valid: true, expires: expirationDate.toISOString(), activatedAt: activationDate.toISOString(), type: 'premium', deviceId: currentDevice, duration: duration, durationStr: durationStr };
     }
-    
     const oldPattern = /^BAK-([A-Z0-9]{4})-([A-Z0-9]{4})-(\d{4})-([A-Z0-9]{8})$/;
     const oldMatch = licenceCode.match(oldPattern);
     if(oldMatch){
@@ -997,7 +1087,7 @@ function initData(){
 }
 
 // ============================================================
-// ONBOARDING (3 étapes)
+// ONBOARDING
 // ============================================================
 const EMOJIS = ['🥖','🥐','🍞','🥨','🧁','🍰','🎂','🍪','☕','🍵','🥤','💧','🍫','🥯','🫓','🍩','🥧','🧃','🍯','🥛','🌾','🛒'];
 
@@ -1181,7 +1271,20 @@ function showLicenceScreen(mode){
         desc.innerHTML = 'Envoyez votre ID au vendeur,<br>puis entrez la clé reçue';
         input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
         btn.style.display = 'block'; btn.textContent = 'Activer'; btn.onclick = activateLicence;
-        trialBox.style.display = 'block'; deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+        deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+        
+        // 🔐 Vérifier si l'essai a déjà été utilisé
+        checkTrialUsed().then(result => {
+            if(result.used){
+                trialBox.style.display = 'none';
+                err.innerHTML = '⚠️ Essai gratuit déjà utilisé sur cet appareil.<br>Contactez le vendeur : ' + DISPLAY_PHONE;
+                err.style.color = '#ff6b6b';
+                err.style.fontWeight = '700';
+                logAudit('TRIAL_ALREADY_USED', `Sources: ${result.sources.join(', ')}`);
+            } else {
+                trialBox.style.display = 'block';
+            }
+        });
     } else if(mode === 'mismatch'){
         icon.textContent = '🚫'; title.textContent = 'Clé non valide';
         desc.innerHTML = 'Cette clé est liée à un <strong>autre téléphone</strong>.<br>Contactez le vendeur.';
@@ -1218,7 +1321,33 @@ function fallbackCopyDevice(deviceId, cb){
     document.body.removeChild(ta);
 }
 
-function startTrial(){
+async function startTrial(){
+    // 🔐 Vérifier si l'essai a déjà été utilisé
+    const trialCheck = await checkTrialUsed();
+    
+    if(trialCheck.used){
+        showToast('❌ Vous avez déjà utilisé votre essai gratuit', 'error', 5000);
+        logAudit('TRIAL_REFUSED', `Sources: ${trialCheck.sources.join(', ')}`);
+        const licError = document.getElementById('licError');
+        if(licError){
+            licError.innerHTML = '❌ Essai déjà utilisé sur cet appareil.<br>Contactez le vendeur : ' + DISPLAY_PHONE;
+        }
+        const trialBox = document.getElementById('trialBox');
+        if(trialBox){
+            trialBox.innerHTML = `
+                <div style="font-size:12px;color:#ff6b6b;font-weight:700;line-height:1.6;">
+                    ⚠️ Vous avez déjà utilisé l'essai gratuit sur ce téléphone.<br><br>
+                    Pour continuer, achetez une licence :<br>
+                    📞 ${DISPLAY_PHONE}
+                </div>
+            `;
+        }
+        return;
+    }
+    
+    // Marquer l'essai comme utilisé dans les 5 sources
+    await markTrialUsed();
+    
     const trial = {
         code: 'TRIAL-' + Date.now(), activatedAt: nowISO(),
         expiresAt: new Date(Date.now() + TRIAL_DAYS*24*60*60*1000).toISOString(),
@@ -2302,8 +2431,9 @@ document.addEventListener('DOMContentLoaded',()=>{
             else if(e.key==='Backspace') pressPin('DEL');
         }
     });
-    setTimeout(()=>{
+    setTimeout(async ()=>{
         registerSW();
+        await getDeviceFingerprint();
         const aboutDevice = document.getElementById('aboutDeviceId');
         if (aboutDevice) aboutDevice.textContent = `📱 ID Appareil : ${getCurrentDeviceId()}`;
         if(!state.config.installed){showOnboarding();return;}
