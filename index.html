@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Boulangerie">
-<link rel="manifest" href="./manifest.json">
+<link rel="manifest" href="./manifest-boulangerie.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
 <title>Boulangerie Prestige</title>
 <style>
@@ -22,14 +22,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .splash-loader{margin-top:40px;width:200px;height:4px;background:rgba(245,222,179,.2);border-radius:4px;overflow:hidden}
 .splash-bar{height:100%;width:0%;background:#F5DEB3;animation:load 2s ease-in-out forwards}
 @keyframes load{to{width:100%}}
-#installBanner{position:fixed;bottom:100px;left:15px;right:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:white;padding:15px;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.2);z-index:200;display:none;align-items:center;gap:12px}
+#installBanner{position:fixed;bottom:100px;left:15px;right:15px;background:linear-gradient(135deg,#8B4513,#A0522D);color:white;padding:15px;border-radius:18px;box-shadow:0 10px 30px rgba(139,69,19,.3);z-index:200;display:none;align-items:center;gap:12px}
 #installBanner.show{display:flex;animation:slideUpBanner .3s ease}
 @keyframes slideUpBanner{from{transform:translateY(100px);opacity:0}to{transform:translateY(0);opacity:1}}
 .install-icon{font-size:30px}
 .install-text{flex:1}
 .install-title{font-weight:800;font-size:14px}
 .install-desc{font-size:11px;opacity:.9;margin-top:2px}
-.install-btn{background:white;color:#667eea;border:none;padding:8px 14px;border-radius:12px;font-weight:700;font-size:12px;cursor:pointer}
+.install-btn{background:white;color:#8B4513;border:none;padding:8px 14px;border-radius:12px;font-weight:700;font-size:12px;cursor:pointer}
 .install-close{background:transparent;border:none;color:white;font-size:18px;cursor:pointer;padding:4px}
 #onboarding{position:fixed;inset:0;background:#f5f0e8;z-index:15000;overflow-y:auto;padding:30px 20px;display:none}
 #onboarding.show{display:block}
@@ -104,8 +104,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .stat-mini-value{font-size:15px;font-weight:800;color:#F5DEB3;margin-top:2px}
 .trial-banner{background:linear-gradient(135deg,#FFB74D,#FB8C00);color:white;padding:10px 15px;border-radius:12px;margin:10px 15px 0;font-size:12px;font-weight:700;display:none;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 4px 12px rgba(251,140,0,.3)}
 .trial-banner.show{display:flex}
-.trial-banner.urgent{background:linear-gradient(135deg,#EF5350,#E53935);box-shadow:0 4px 12px rgba(229,57,53,.4);animation:pulseUrgent 2s infinite}
-.trial-banner.last{background:linear-gradient(135deg,#C62828,#B71C1C);box-shadow:0 4px 12px rgba(183,28,28,.5);animation:pulseUrgent 1s infinite}
+.trial-banner.urgent{background:linear-gradient(135deg,#EF5350,#E53935);animation:pulseUrgent 2s infinite}
+.trial-banner.last{background:linear-gradient(135deg,#C62828,#B71C1C);animation:pulseUrgent 1s infinite}
 @keyframes pulseUrgent{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
 .trial-banner-text{flex:1}
 .trial-banner-btn{background:white;color:#E65100;border:none;padding:6px 12px;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer;font-family:inherit;white-space:nowrap}
@@ -206,6 +206,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .report-value.positive{color:#43A047}
 .report-value.warning{color:#FB8C00}
 .report-value.negative{color:#E53935}
+.period-tabs{display:flex;gap:6px;margin-bottom:15px;background:#f5f0e8;padding:5px;border-radius:14px;overflow-x:auto;scrollbar-width:none}
+.period-tabs::-webkit-scrollbar{display:none}
+.period-tab{flex:1;padding:10px 12px;border:none;background:transparent;color:#8B4513;border-radius:10px;font-weight:700;font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .2s}
+.period-tab.active{background:white;box-shadow:0 2px 8px rgba(139,69,19,.15);color:#8B4513}
+.period-label{text-align:center;font-size:11px;color:#999;margin-bottom:12px;font-weight:600}
 .client-card{background:white;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(139,69,19,.06)}
 .client-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .client-name{font-size:14px;font-weight:800;color:#2d1b0e}
@@ -218,7 +223,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .alert-warning{background:#fff8e1;color:#E65100;border-left:4px solid #FFB74D}
 .alert-danger{background:#ffebee;color:#C62828;border-left:4px solid #E53935}
 .alert-info{background:#e3f2fd;color:#1565C0;border-left:4px solid #42A5F5}
-.alert-success{background:#e8f5e9;color:#1B5E20;border-left:4px solid #43A047}
 .empty-state{text-align:center;padding:50px 20px;color:#bbb}
 .empty-icon{font-size:50px;margin-bottom:12px;opacity:.5}
 .empty-text{font-size:13px;font-weight:600}
@@ -256,7 +260,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:10px;font-weight:700}
 .badge.trial{background:#fff8e1;color:#E65100}
 .badge.active{background:#e8f5e9;color:#43A047}
-.badge.expired{background:#ffebee;color:#C62828}
 @media(min-width:768px){.products-grid{grid-template-columns:repeat(3,1fr)}.main-content,.action-grid{max-width:700px;margin:0 auto}}
 </style>
 </head>
@@ -292,40 +295,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     <div class="lic-icon" id="licIcon">🔑</div>
     <div class="lic-title" id="licTitle">Activation requise</div>
     <div class="lic-desc" id="licDesc">Entrez votre clé de licence</div>
-    
     <input type="text" class="lic-input" id="licInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="30" autocomplete="off" style="display:none;">
     <button class="lic-btn" id="licBtn" onclick="activateLicence()" style="display:none;">Activer</button>
-    
     <div class="lic-error" id="licError"></div>
-    
     <div class="lic-trial" id="trialBox" style="display:none;">
         <div style="font-size:12px;color:#F5DEB3;margin-bottom:8px;">Pas encore de licence ?</div>
         <button class="lic-trial-btn" onclick="startTrial()">🎁 Essayer 10 jours gratuit</button>
     </div>
-    
     <div class="lic-device-box" id="deviceBox">
-        <div style="font-size:11px;color:#D2B48C;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">
-            📱 Votre ID téléphone
-        </div>
+        <div style="font-size:11px;color:#D2B48C;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">📱 Votre ID téléphone</div>
         <div class="device-id-big" id="deviceIdBig">---</div>
         <button class="btn-copy-id" id="btnCopyId" onclick="copyDeviceId()">📋 Copier mon ID</button>
-        <div class="device-hint">
-            Envoyez cet ID au vendeur sur WhatsApp<br>
-            pour recevoir votre clé d'activation
-        </div>
+        <div class="device-hint">Envoyez cet ID au vendeur sur WhatsApp<br>pour recevoir votre clé d'activation</div>
     </div>
-    
-    <button class="btn-contact" id="btnContact" onclick="contactWhatsApp()" style="display:none;">
-        <span>💬</span> Contacter le vendeur
-    </button>
-    
-    <button class="btn-export" id="btnExport" onclick="exportData()" style="display:none;">
-        📥 Exporter mes données
-    </button>
-    
-    <div class="lic-info" id="licContact">
-        📞 Support : 77 686 86 25
-    </div>
+    <button class="btn-contact" id="btnContact" onclick="contactWhatsApp()" style="display:none;"><span>💬</span> Contacter le vendeur</button>
+    <button class="btn-export" id="btnExport" onclick="exportData()" style="display:none;">📥 Exporter mes données</button>
+    <div class="lic-info" id="licContact">📞 Support : 77 686 86 25</div>
 </div>
 
 <div id="lockScreen">
@@ -358,7 +343,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="header-logo">
             <div class="header-icon" id="headerLogo">🥖</div>
             <div>
-                <div class="header-name" id="userName">Boulangerie</div>
+                <div class="header-name" id="userName">Boulangerie Prestige</div>
                 <div class="header-role" id="userRole">Rôle</div>
             </div>
         </div>
@@ -450,11 +435,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
             <button class="section-action" onclick="openClosing()">🔐 Clôture</button>
         </div>
         <div class="main-content">
-            <div class="report-card"><div><div class="report-label">💰 CA du jour</div><div class="report-value positive" id="reportTodaySales">0 FCFA</div></div></div>
+            <div class="period-tabs">
+                <button class="period-tab active" data-period="day" onclick="setPeriod('day')">📅 Jour</button>
+                <button class="period-tab" data-period="week" onclick="setPeriod('week')">📆 Semaine</button>
+                <button class="period-tab" data-period="month" onclick="setPeriod('month')">🗓️ Mois</button>
+                <button class="period-tab" data-period="year" onclick="setPeriod('year')">📊 Année</button>
+                <button class="period-tab" data-period="custom" onclick="setPeriod('custom')">🔧 Perso</button>
+            </div>
+            <div class="period-label" id="periodLabel"></div>
+
+            <div id="customPeriodBox" style="display:none;margin-bottom:15px;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div class="form-group" style="margin:0;">
+                        <label class="form-label">Du</label>
+                        <input type="date" class="form-input" id="customStartDate" onchange="renderReports()">
+                    </div>
+                    <div class="form-group" style="margin:0;">
+                        <label class="form-label">Au</label>
+                        <input type="date" class="form-input" id="customEndDate" onchange="renderReports()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-card"><div><div class="report-label">💰 CA total</div><div class="report-value positive" id="reportTodaySales">0 FCFA</div></div></div>
             <div class="report-card" id="profitReportCard"><div><div class="report-label">📈 Bénéfice brut</div><div class="report-value" id="reportTodayProfit">0 FCFA</div></div></div>
             <div class="report-card"><div><div class="report-label">💵 Encaissé cash</div><div class="report-value positive" id="reportCashIn">0 FCFA</div></div></div>
             <div class="report-card"><div><div class="report-label">📤 Sorties</div><div class="report-value negative" id="reportCashOut">0 FCFA</div></div></div>
-            <div class="report-card"><div><div class="report-label">🏦 Caisse attendue</div><div class="report-value" id="reportExpectedCash">0 FCFA</div></div></div>
             <hr style="border:none;border-top:1px dashed #f0e8dd;margin:15px 0;">
             <div class="report-card"><div><div class="report-label">☀️ Ventes matin</div><div class="report-value" id="reportMorningSales">0 FCFA</div></div></div>
             <div class="report-card"><div><div class="report-label">🌙 Ventes soir</div><div class="report-value" id="reportEveningSales">0 FCFA</div></div></div>
@@ -579,7 +585,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <h3 class="modal-title">↩️ Retour marchandise</h3>
         <div class="form-group"><label class="form-label">Produit</label><select class="form-select" id="retourProduct" onchange="updateRetourTotal()"></select></div>
         <div class="form-group"><label class="form-label">Quantité</label><input type="number" class="form-input" id="retourQty" value="1" min="1" oninput="updateRetourTotal()"></div>
-        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retourReason" placeholder="Ex: Trop cuit, erreur client"></div>
+        <div class="form-group"><label class="form-label">Motif</label><input type="text" class="form-input" id="retourReason" placeholder="Ex: Trop cuit"></div>
         <div class="cash-display"><div class="cash-label">À rendre</div><div class="cash-amount" id="retourTotal">0 FCFA</div></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('retour')">Annuler</button><button class="btn btn-danger" onclick="confirmRetour()">↩️ Confirmer</button></div>
     </div>
@@ -644,9 +650,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div class="form-group"><label class="form-label">Nom</label><input type="text" class="form-input" id="newProductName" placeholder="Ex: Baguette tradition"></div>
         <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input" id="newProductEmoji" placeholder="Ex: 🥖" maxlength="3"></div>
         <div class="form-group"><label class="form-label">Catégorie</label>
-            <select class="form-select" id="newProductCategory">
-                <option>Pains</option><option>Viennoiseries</option><option>Pâtisseries</option><option>Boissons</option><option>Divers</option>
-            </select>
+            <input type="text" class="form-input" id="newProductCategory" placeholder="Ex: Pains" list="categoryList">
+            <datalist id="categoryList"></datalist>
         </div>
         <div class="form-group"><label class="form-label">Prix vente (FCFA)</label><input type="number" class="form-input" id="newProductPrice" placeholder="Ex: 150"></div>
         <div class="form-group"><label class="form-label">Prix revient (FCFA)</label><input type="number" class="form-input" id="newProductCost" placeholder="Ex: 100"></div>
@@ -665,7 +670,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <div class="modal-overlay" id="modal-boulangerie">
     <div class="modal">
-        <h3 class="modal-title">🏪 Ma boulangerie</h3>
+        <h3 class="modal-title">🥖 Ma boulangerie</h3>
         <div class="form-group"><label class="form-label">Nom boulangerie</label><input type="text" class="form-input" id="boulangerieName" placeholder="Ex: Boulangerie Le Baobab"></div>
         <div class="form-group"><label class="form-label">Emoji / Logo</label><input type="text" class="form-input" id="boulangerieLogo" placeholder="Ex: 🥖" maxlength="3"></div>
         <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" class="form-input" id="boulangeriePhone" placeholder="Ex: +221 77 123 45 67"></div>
@@ -677,8 +682,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="modal-overlay" id="modal-pin">
     <div class="modal">
         <h3 class="modal-title">🔑 Changer PIN</h3>
-        <div class="form-group"><label class="form-label">PIN Patron (4 chiffres)</label><input type="tel" class="form-input" id="newPinPatron" placeholder="Ex: 1234" maxlength="4" pattern="[0-9]{4}"></div>
-        <div class="form-group"><label class="form-label">PIN Caissier (4 chiffres)</label><input type="tel" class="form-input" id="newPinCaissier" placeholder="Ex: 0000" maxlength="4" pattern="[0-9]{4}"></div>
+        <div class="form-group"><label class="form-label">PIN Patron (4 chiffres)</label><input type="tel" class="form-input" id="newPinPatron" placeholder="Ex: 1234" maxlength="4"></div>
+        <div class="form-group"><label class="form-label">PIN Caissier (4 chiffres)</label><input type="tel" class="form-input" id="newPinCaissier" placeholder="Ex: 0000" maxlength="4"></div>
         <div class="cart-actions"><button class="btn btn-secondary" onclick="closeModal('pin')">Annuler</button><button class="btn btn-primary" onclick="savePins()">Enregistrer</button></div>
     </div>
 </div>
@@ -701,12 +706,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <div style="text-align:center;padding:15px 0;">
             <div style="font-size:60px;">🥖</div>
             <div style="font-size:18px;font-weight:800;margin-top:10px;">Boulangerie Prestige</div>
-            <div style="font-size:12px;color:#999;margin-top:5px;">Version 4.5</div>
+            <div style="font-size:12px;color:#999;margin-top:5px;">Version 5.0</div>
         </div>
         <div style="font-size:12px;line-height:1.8;color:#666;">
-            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📱 Application de gestion de caisse</div>
+            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📱 Gestion de caisse pour boulangerie</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">🇸🇳 Développée pour le Sénégal</div>
-            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">💾 Données stockées sur votre téléphone</div>
+            <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">💾 Données sur votre téléphone</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;word-break:break-all;" id="aboutDeviceId">-</div>
             <div style="padding:10px 0;border-bottom:1px solid #f0e8dd;">📞 Support : 77 686 86 25</div>
             <div style="padding:10px 0;">📧 contact@boulangerie-prestige.sn</div>
@@ -720,12 +725,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <input type="file" id="importFile" accept=".json" style="display:none;" onchange="handleImport(event)">
 
 <script>
-const VERSION = '4.5';
+// ============================================================
+// BOULANGERIE PRESTIGE v5.0
+// ============================================================
+const VERSION = '5.0';
 const KEYS = {
-    products:'bp4_products', txs:'bp4_txs', credits:'bp4_credits',
-    acomptes:'bp4_acomptes', audit:'bp4_audit', closings:'bp4_closings',
-    settings:'bp4_settings', config:'bp4_config', licence:'bp4_licence',
-    deviceId:'bp4_device_id', lastDate:'bp4_last_date'
+    products:'bp5_products', txs:'bp5_txs', credits:'bp5_credits',
+    acomptes:'bp5_acomptes', audit:'bp5_audit', closings:'bp5_closings',
+    settings:'bp5_settings', config:'bp5_config', licence:'bp5_licence',
+    deviceId:'bp5_device_id', lastDate:'bp5_last_date'
 };
 
 const _k1 = [98,112,50,48,50,54];
@@ -737,10 +745,7 @@ const SECRET_KEY = _k1.concat(_k2, _k3, _k4, _k5).map(c => String.fromCharCode(c
 
 const WHATSAPP_NUMBER = '221776868625';
 const DISPLAY_PHONE = '77 686 86 25';
-
-// ⭐ ESSAI : 10 JOURS (au lieu de 30)
 const TRIAL_DAYS = 10;
-// Alertes pour essai 10 jours : J-7, J-3, J-1
 const ALERT_THRESHOLDS = [7, 3, 1];
 
 const DEFAULT_PRODUCTS = [
@@ -758,6 +763,8 @@ const DEFAULT_PRODUCTS = [
     {id:'12',name:'Eau minérale',emoji:'💧',price:200,cost:100,stock:40,category:'Boissons'}
 ];
 
+const DEFAULT_CATEGORIES = ['Pains', 'Viennoiseries', 'Pâtisseries', 'Boissons'];
+
 let state = {
     products:[], txs:[], credits:[], acomptes:[], audit:[], closings:[],
     settings:{lastExport:null,lastImport:null},
@@ -766,6 +773,7 @@ let state = {
         logo:'🥖',
         phone:'',
         address:'Dakar, Sénégal',
+        categories:[...DEFAULT_CATEGORIES],
         pinPatronHash:null,
         pinCaissierHash:null,
         installed:false
@@ -776,9 +784,15 @@ let state = {
     searchTerm:'', txFilter:'all', clientFilter:'credits',
     pinBuffer:'', paymentReceived:0, acompteApplied:null, remboursementCreditId:null,
     deferredPrompt:null, onboardingStep:1, onboardingData:{},
-    trialAlerted:null
+    trialAlerted:null,
+    reportPeriod: 'day',
+    customStartDate: null,
+    customEndDate: null
 };
 
+// ============================================================
+// UTILITAIRES
+// ============================================================
 function safeParse(k,f){try{const r=localStorage.getItem(k);return r?JSON.parse(r):f;}catch(e){console.error(e);return f;}}
 function safeSave(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true;}catch(e){if(e.name==='QuotaExceededError')showToast('⚠️ Stockage plein','error');return false;}}
 function esc(s){if(s==null)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
@@ -789,6 +803,7 @@ function todayKey(){const d=new Date();return d.getFullYear()+'-'+String(d.getMo
 function getSession(){const h=new Date().getHours();return (h>=5&&h<14)?'matin':'soir';}
 function nowISO(){return new Date().toISOString();}
 function fmtDateTime(iso){const d=new Date(iso);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});}
+function dateKeyFromDate(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 
 function simpleHash(str){
     let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
@@ -805,23 +820,13 @@ function simpleHash(str){
 function hashPin(pin){return simpleHash(pin + SECRET_KEY + 'PIN-SALT').toUpperCase().slice(0, 16);}
 
 function signLicenceData(lic){
-    const dataStr = JSON.stringify({
-        code: lic.code, expiresAt: lic.expiresAt, deviceId: lic.deviceId,
-        activatedAt: lic.activatedAt, type: lic.type, duration: lic.duration || null
-    });
+    const dataStr = JSON.stringify({code: lic.code, expiresAt: lic.expiresAt, deviceId: lic.deviceId, activatedAt: lic.activatedAt, type: lic.type, duration: lic.duration || null});
     let hash = 0x811c9dc5;
-    for(let i = 0; i < dataStr.length; i++){
-        hash ^= dataStr.charCodeAt(i);
-        hash = Math.imul(hash, 0x01000193);
-    }
+    for(let i = 0; i < dataStr.length; i++){hash ^= dataStr.charCodeAt(i);hash = Math.imul(hash, 0x01000193);}
     return (hash >>> 0).toString(36).toUpperCase() + simpleHash(dataStr + SECRET_KEY).toUpperCase().slice(0, 8);
 }
 
-function verifyLicenceIntegrity(lic){
-    if(!lic || !lic._sig) return false;
-    return lic._sig === signLicenceData(lic);
-}
-
+function verifyLicenceIntegrity(lic){if(!lic || !lic._sig) return false;return lic._sig === signLicenceData(lic);}
 function saveLicence(lic){lic._sig = signLicenceData(lic);safeSave(KEYS.licence, lic);}
 
 function generateDeviceId(){
@@ -836,7 +841,14 @@ function generateDeviceId(){
 
 function getCurrentDeviceId(){ return localStorage.getItem(KEYS.deviceId) || generateDeviceId(); }
 
-// ⭐ SIGNATURE basée sur deviceId + durée (ex: "M12")
+function addMonths(date, months){
+    const d = new Date(date);
+    const day = d.getDate();
+    d.setMonth(d.getMonth() + months);
+    if(d.getDate() !== day){ d.setDate(0); }
+    return d;
+}
+
 function generateSignature(deviceId, durationStr){
     const input = `${deviceId.toUpperCase()}|${durationStr}|${SECRET_KEY}`;
     let hash = simpleHash(input).toUpperCase();
@@ -845,75 +857,39 @@ function generateSignature(deviceId, durationStr){
     return sig.slice(0, 8);
 }
 
-// ⭐ VÉRIFICATION : accepte nouveau format (M12) + ancien format (2026)
 function verifyLicence(licenceCode){
     const currentDevice = getCurrentDeviceId();
     
-    // ⭐ NOUVEAU FORMAT : BAK-XXXX-XXXX-MXX-XXXXXXXX (durée en mois)
     const newPattern = /^BAK-([A-Z0-9]{4})-([A-Z0-9]{4})-(M\d{2})-([A-Z0-9]{8})$/;
     const newMatch = licenceCode.match(newPattern);
-    
     if(newMatch){
-        const [, block1, block2, durationStr, signature] = newMatch;
+        const [, , , durationStr, signature] = newMatch;
         const duration = parseInt(durationStr.replace('M', ''));
-        
-        if(duration < 1 || duration > 120){
-            return { valid: false, reason: 'Durée invalide' };
-        }
-        
+        if(duration < 1 || duration > 120) return { valid: false, reason: 'Durée invalide' };
         const expectedSig = generateSignature(currentDevice, durationStr);
         if(signature !== expectedSig){
-            return { valid: false, reason: 'Cette clé ne correspond pas à cet appareil. Envoyez votre ID au vendeur : ' + currentDevice };
+            return { valid: false, reason: 'Cette clé ne correspond pas à cet appareil. Envoyez votre ID : ' + currentDevice };
         }
-        
-        // ⭐ Décompte à partir de MAINTENANT (activation)
         const activationDate = new Date();
-        const expirationDate = new Date(activationDate);
-        expirationDate.setMonth(expirationDate.getMonth() + duration);
-        
-        return {
-            valid: true,
-            expires: expirationDate.toISOString(),
-            activatedAt: activationDate.toISOString(),
-            type: 'premium',
-            deviceId: currentDevice,
-            duration: duration,
-            durationStr: durationStr
-        };
+        const expirationDate = addMonths(activationDate, duration);
+        return { valid: true, expires: expirationDate.toISOString(), activatedAt: activationDate.toISOString(), type: 'premium', deviceId: currentDevice, duration: duration, durationStr: durationStr };
     }
     
-    // ⭐ ANCIEN FORMAT : BAK-XXXX-XXXX-YYYY-XXXXXXXX (compatibilité)
     const oldPattern = /^BAK-([A-Z0-9]{4})-([A-Z0-9]{4})-(\d{4})-([A-Z0-9]{8})$/;
     const oldMatch = licenceCode.match(oldPattern);
-    
     if(oldMatch){
-        const [, block1, block2, year, signature] = oldMatch;
+        const [, , , year, signature] = oldMatch;
         const yearNum = parseInt(year);
-        
-        if(yearNum < new Date().getFullYear()){
-            return { valid: false, reason: 'Cette clé a expiré' };
-        }
-        
+        if(yearNum < new Date().getFullYear()) return { valid: false, reason: 'Cette clé a expiré' };
         const input = `${currentDevice.toUpperCase()}|${year}|${SECRET_KEY}`;
         let hash = simpleHash(input).toUpperCase();
         hash = hash + simpleHash(input + hash).toUpperCase();
         const expectedSig = (hash.slice(0,4) + hash.slice(-4)).toUpperCase().replace(/[^A-Z0-9]/g,'0').slice(0, 8);
-        
         if(signature !== expectedSig){
-            return { valid: false, reason: 'Cette clé ne correspond pas à cet appareil. Envoyez votre ID au vendeur : ' + currentDevice };
+            return { valid: false, reason: 'Cette clé ne correspond pas à cet appareil. Envoyez votre ID : ' + currentDevice };
         }
-        
-        return {
-            valid: true,
-            expires: `${year}-12-31T23:59:59.000Z`,
-            activatedAt: nowISO(),
-            type: 'premium',
-            deviceId: currentDevice,
-            duration: null,
-            durationStr: year
-        };
+        return { valid: true, expires: `${year}-12-31T23:59:59.000Z`, activatedAt: nowISO(), type: 'premium', deviceId: currentDevice, duration: null, durationStr: year };
     }
-    
     return { valid: false, reason: 'Clé incorrecte' };
 }
 
@@ -921,7 +897,7 @@ function checkDateManipulation(){
     const lastKnown = parseInt(localStorage.getItem(KEYS.lastDate) || '0');
     const now = Date.now();
     if(lastKnown > 0 && now < lastKnown - (24 * 60 * 60 * 1000)) {
-        logAudit('DATE_MANIPULATION', `Dernière: ${new Date(lastKnown).toISOString()}, Maintenant: ${new Date(now).toISOString()}`);
+        logAudit('DATE_MANIPULATION', '');
         return false;
     }
     localStorage.setItem(KEYS.lastDate, now.toString());
@@ -933,14 +909,13 @@ function contactWhatsApp(){
     let message = '';
     if(state.licence && state.licence.type === 'trial'){
         const daysLeft = getTrialDaysLeft();
-        message = `Bonjour, je souhaite acheter la licence Boulangerie Prestige.\n\nMon ID : ${deviceId}\nEssai restant : ${daysLeft} jour(s)`;
+        message = `Bonjour, je souhaite acheter la licence Boulangerie Prestige.\n\nMon ID : ${deviceId}\nEssai restant : ${daysLeft} jour(s)\nCommerce : ${state.config.nom}`;
     } else if(state.licence && state.licence.type === 'premium'){
-        message = `Bonjour, je vous contacte au sujet de ma licence Boulangerie Prestige.\n\nMon ID : ${deviceId}`;
+        message = `Bonjour, au sujet de ma licence Boulangerie Prestige.\n\nMon ID : ${deviceId}\nCommerce : ${state.config.nom}`;
     } else {
         message = `Bonjour, je souhaite activer Boulangerie Prestige.\n\nMon ID : ${deviceId}`;
     }
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
 function getTrialDaysLeft(){
@@ -957,18 +932,10 @@ function updateTrialBanner(){
         const days = getTrialDaysLeft();
         banner.classList.add('show');
         banner.classList.remove('urgent', 'last');
-        if(days <= 1){
-            banner.classList.add('last');
-            text.innerHTML = `🚨 <strong>DERNIER JOUR d'essai !</strong> Achetez maintenant`;
-        } else if(days <= 3){
-            banner.classList.add('urgent');
-            text.innerHTML = `⚠️ Essai expire dans <strong>${days} jours</strong>`;
-        } else if(days <= 5){
-            banner.classList.add('urgent');
-            text.innerHTML = `⏰ Essai expire dans <strong>${days} jours</strong>`;
-        } else {
-            text.innerHTML = `🎁 Essai gratuit — <strong>${days} jours restants</strong>`;
-        }
+        if(days <= 1){ banner.classList.add('last'); text.innerHTML = `🚨 <strong>DERNIER JOUR d'essai !</strong>`; }
+        else if(days <= 3){ banner.classList.add('urgent'); text.innerHTML = `⚠️ Essai expire dans <strong>${days} jours</strong>`; }
+        else if(days <= 5){ banner.classList.add('urgent'); text.innerHTML = `⏰ Essai expire dans <strong>${days} jours</strong>`; }
+        else { text.innerHTML = `🎁 Essai gratuit — <strong>${days} jours restants</strong>`; }
     } else if(state.licence.type === 'premium'){
         banner.classList.remove('show');
     }
@@ -980,7 +947,7 @@ function checkTrialAlerts(){
     if(state.trialAlerted === days) return;
     if(ALERT_THRESHOLDS.includes(days)){
         state.trialAlerted = days;
-        safeSave('bp_trial_alerted', days);
+        safeSave('bp5_trial_alerted', days);
         let msg = '';
         if(days === 1) msg = `🚨 DERNIER JOUR d'essai ! Contactez le ${DISPLAY_PHONE}`;
         else if(days === 3) msg = `⚠️ Essai expire dans 3 jours ! Appelez le ${DISPLAY_PHONE}`;
@@ -1012,164 +979,26 @@ function initData(){
     state.audit=safeParse(KEYS.audit,[]);
     state.closings=safeParse(KEYS.closings,[]);
     state.settings=safeParse(KEYS.settings,{lastExport:null,lastImport:null});
-    state.config=safeParse(KEYS.config,{nom:'Boulangerie Prestige',logo:'🥖',phone:'',address:'Dakar, Sénégal',pinPatronHash:null,pinCaissierHash:null,installed:false});
-    state.trialAlerted = safeParse('bp_trial_alerted', null);
+    state.config=safeParse(KEYS.config,{
+        nom:'Boulangerie Prestige',logo:'🥖',phone:'',address:'Dakar, Sénégal',
+        categories:[...DEFAULT_CATEGORIES],pinPatronHash:null,pinCaissierHash:null,installed:false
+    });
+    state.trialAlerted = safeParse('bp5_trial_alerted', null);
     if(state.config.pinPatron && !state.config.pinPatronHash){
         state.config.pinPatronHash = hashPin(state.config.pinPatron);
         state.config.pinCaissierHash = hashPin(state.config.pinCaissier);
         delete state.config.pinPatron; delete state.config.pinCaissier;
         saveConfig();
     }
+    if(!state.config.categories) state.config.categories = [...DEFAULT_CATEGORIES];
     let mig=false;
-    state.products.forEach(p=>{if(!p.category){p.category='Pains';mig=true;}if(!p.id){p.id=uid();mig=true;}});
-    if(!localStorage.getItem(KEYS.products)) mig=true;
+    state.products.forEach(p=>{if(!p.category){p.category='Divers';mig=true;}if(!p.id){p.id=uid();mig=true;}});
     if(mig) saveProducts();
 }
 
-function activateLicence(){
-    const input = document.getElementById('licInput').value.trim().toUpperCase();
-    const err = document.getElementById('licError');
-    err.textContent = '';
-    if(!input){ err.textContent = '❌ Entrez une clé'; return; }
-    const result = verifyLicence(input);
-    if(!result.valid){ err.textContent = '❌ ' + result.reason; return; }
-    
-    state.licence = {
-        code: input,
-        activatedAt: result.activatedAt || nowISO(),
-        expiresAt: result.expires,
-        type: result.type,
-        deviceId: result.deviceId,
-        duration: result.duration
-    };
-    saveLicence(state.licence);
-    
-    document.getElementById('licenceScreen').classList.remove('show');
-    document.getElementById('lockScreen').classList.add('show');
-    document.getElementById('lockTitle').textContent = state.config.nom;
-    
-    const msg = result.duration ? `✅ Licence activée pour ${result.duration} mois !` : '✅ Licence activée !';
-    showToast(msg, 'success', 3000);
-    logAudit('LICENCE_ACTIVATION', input);
-}
-
-function checkLicence(){
-    const lic = safeParse(KEYS.licence, null);
-    if(!lic){ showLicenceScreen('new'); return false; }
-    if(!verifyLicenceIntegrity(lic)){
-        localStorage.removeItem(KEYS.licence);
-        showLicenceScreen('new');
-        logAudit('LICENCE_FALSIFIEE', 'Signature invalide');
-        return false;
-    }
-    if(lic.type === 'trial'){
-        if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
-        state.licence = lic;
-        return true;
-    }
-    const result = verifyLicence(lic.code);
-    if(!result.valid){ showLicenceScreen('mismatch'); return false; }
-    if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
-    state.licence = lic;
-    return true;
-}
-
-function showLicenceScreen(mode){
-    const screen = document.getElementById('licenceScreen');
-    const icon = document.getElementById('licIcon');
-    const title = document.getElementById('licTitle');
-    const desc = document.getElementById('licDesc');
-    const input = document.getElementById('licInput');
-    const btn = document.getElementById('licBtn');
-    const trialBox = document.getElementById('trialBox');
-    const err = document.getElementById('licError');
-    const deviceIdBig = document.getElementById('deviceIdBig');
-    const deviceBox = document.getElementById('deviceBox');
-    const btnContact = document.getElementById('btnContact');
-    const btnExport = document.getElementById('btnExport');
-    err.textContent = '';
-    const deviceId = getCurrentDeviceId();
-    if(deviceIdBig) deviceIdBig.textContent = deviceId;
-    input.style.display = 'none'; btn.style.display = 'none'; trialBox.style.display = 'none';
-    deviceBox.style.display = 'none'; btnContact.style.display = 'none'; btnExport.style.display = 'none';
-    if(mode === 'new'){
-        icon.textContent = '🔑';
-        title.textContent = 'Activation requise';
-        desc.innerHTML = 'Envoyez votre ID au vendeur,<br>puis entrez la clé reçue';
-        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
-        btn.style.display = 'block'; btn.textContent = 'Activer'; btn.onclick = activateLicence;
-        trialBox.style.display = 'block'; deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
-    } else if(mode === 'mismatch'){
-        icon.textContent = '🚫';
-        title.textContent = 'Clé non valide';
-        desc.innerHTML = 'Cette clé est liée à un <strong>autre téléphone</strong>.<br>Contactez le vendeur pour une nouvelle clé.';
-        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
-        btn.style.display = 'block'; btn.textContent = 'Activer une nouvelle clé'; btn.onclick = activateLicence;
-        deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
-    } else if(mode === 'expired'){
-        icon.textContent = '⏰';
-        title.textContent = 'Licence expirée';
-        desc.innerHTML = 'Votre licence est arrivée à son terme.<br>Contactez le vendeur pour continuer.';
-        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
-        btn.style.display = 'block'; btn.textContent = 'J\'ai une clé'; btn.onclick = activateLicence;
-        deviceBox.style.display = 'block'; btnContact.style.display = 'flex'; btnExport.style.display = 'block';
-    }
-    screen.classList.add('show');
-}
-
-function copyDeviceId(){
-    const deviceId = getCurrentDeviceId();
-    const btn = document.getElementById('btnCopyId');
-    const doCopy = () => {
-        showToast('📋 ID copié !', 'success');
-        if(btn){
-            btn.textContent = '✅ Copié !'; btn.classList.add('copied');
-            setTimeout(() => { btn.textContent = '📋 Copier mon ID'; btn.classList.remove('copied'); }, 2000);
-        }
-    };
-    if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(deviceId).then(doCopy).catch(() => fallbackCopyDevice(deviceId, doCopy));
-    } else { fallbackCopyDevice(deviceId, doCopy); }
-}
-
-function fallbackCopyDevice(deviceId, cb){
-    const ta = document.createElement('textarea');
-    ta.value = deviceId; ta.style.position = 'fixed'; ta.style.left = '-9999px';
-    document.body.appendChild(ta); ta.select();
-    try { document.execCommand('copy'); if(cb) cb(); } catch(e) {}
-    document.body.removeChild(ta);
-}
-
-function startTrial(){
-    const trial = {
-        code: 'TRIAL-' + Date.now(),
-        activatedAt: nowISO(),
-        expiresAt: new Date(Date.now() + TRIAL_DAYS*24*60*60*1000).toISOString(),
-        type: 'trial',
-        deviceId: getCurrentDeviceId()
-    };
-    state.licence = trial;
-    saveLicence(trial);
-    state.trialAlerted = null;
-    document.getElementById('licenceScreen').classList.remove('show');
-    document.getElementById('lockScreen').classList.add('show');
-    document.getElementById('lockTitle').textContent = state.config.nom;
-    showToast(`🎁 Essai ${TRIAL_DAYS} jours activé !`, 'success', 3000);
-    logAudit('TRIAL_START', `Expire le ${trial.expiresAt}`);
-}
-
-function getLicenceStatus(){
-    if (!state.licence) return 'Aucune';
-    const exp = new Date(state.licence.expiresAt);
-    const days = Math.floor((exp - new Date()) / (1000*60*60*24));
-    if (days < 0) return 'Expirée';
-    if (state.licence.type === 'trial') return `Essai (${days}j)`;
-    if (state.licence.duration){
-        return `${state.licence.duration} mois (${days}j restants)`;
-    }
-    return `Active (${days}j)`;
-}
-
+// ============================================================
+// ONBOARDING (3 étapes)
+// ============================================================
 const EMOJIS = ['🥖','🥐','🍞','🥨','🧁','🍰','🎂','🍪','☕','🍵','🥤','💧','🍫','🥯','🫓','🍩','🥧','🧃','🍯','🥛','🌾','🛒'];
 
 function showOnboarding(){
@@ -1190,7 +1019,7 @@ function renderOnboardingStep(){
     });
     if (step === 1) {
         content.innerHTML = `
-            <div class="ob-icon">🏪</div>
+            <div class="ob-icon">🥖</div>
             <div class="ob-title">Votre boulangerie</div>
             <div class="ob-desc">Ces informations apparaîtront sur vos reçus.</div>
             <div class="ob-field"><label class="ob-label">Nom</label><input type="text" class="ob-input" id="obNom" value="${esc(data.nom)}" placeholder="Ex: Boulangerie Le Baobab"></div>
@@ -1206,8 +1035,8 @@ function renderOnboardingStep(){
             <div class="ob-icon">🔐</div>
             <div class="ob-title">Codes PIN</div>
             <div class="ob-desc">Protégez l'accès avec 2 codes différents.</div>
-            <div class="ob-field"><label class="ob-label">PIN Patron (4 chiffres)</label><input type="tel" class="ob-input" id="obPinPatron" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinPatron)}" placeholder="Ex: 1234"><div class="form-hint">Accès complet</div></div>
-            <div class="ob-field"><label class="ob-label">PIN Caissier (4 chiffres)</label><input type="tel" class="ob-input" id="obPinCaissier" maxlength="4" pattern="[0-9]{4}" value="${esc(data.pinCaissier)}" placeholder="Ex: 0000"><div class="form-hint">Accès limité aux ventes</div></div>
+            <div class="ob-field"><label class="ob-label">PIN Patron (4 chiffres)</label><input type="tel" class="ob-input" id="obPinPatron" maxlength="4" value="${esc(data.pinPatron)}" placeholder="Ex: 1234"><div class="form-hint">Accès complet</div></div>
+            <div class="ob-field"><label class="ob-label">PIN Caissier (4 chiffres)</label><input type="tel" class="ob-input" id="obPinCaissier" maxlength="4" value="${esc(data.pinCaissier)}" placeholder="Ex: 0000"><div class="form-hint">Accès limité aux ventes</div></div>
             <div class="ob-btn-row"><button class="ob-btn secondary" onclick="obBack()">← Retour</button><button class="ob-btn primary" onclick="obNext()">Continuer →</button></div>
         `;
     }
@@ -1222,14 +1051,18 @@ function renderOnboardingStep(){
                     <div style="font-size:36px;">${esc(data.logo)}</div>
                     <div><div style="font-size:16px;font-weight:800;">${esc(data.nom)}</div><div style="font-size:12px;color:#999;">${esc(data.address)}</div></div>
                 </div>
-                <div style="padding:12px;background:#f5f0e8;border-radius:10px;margin-top:10px;font-size:10px;font-family:monospace;text-align:center;color:#8B4513;">
-                    📱 ID Appareil : <strong>${esc(deviceId)}</strong>
+                <div style="padding:12px 0;font-size:12px;color:#666;">
+                    <div>📦 ${DEFAULT_PRODUCTS.length} produits pré-remplis</div>
+                    <div>📂 ${DEFAULT_CATEGORIES.length} catégories</div>
+                </div>
+                <div style="padding:10px;background:#f5f0e8;border-radius:10px;margin-top:10px;font-size:10px;font-family:monospace;text-align:center;color:#8B4513;">
+                    📱 ID : <strong>${esc(deviceId)}</strong>
                 </div>
             </div>
             <div class="alert alert-info" style="margin-top:15px;font-size:11px;">
-                ℹ️ L'étape suivante vous permettra d'activer votre essai gratuit de 10 jours.
+                ℹ️ Étape suivante : activation de votre essai gratuit de 10 jours.
             </div>
-            <div class="ob-btn-row"><button class="ob-btn secondary" onclick="obBack()">← Retour</button><button class="ob-btn primary" onclick="obFinish()">✅ Continuer</button></div>
+            <div class="ob-btn-row"><button class="ob-btn secondary" onclick="obBack()">← Retour</button><button class="ob-btn primary" onclick="obFinish()">✅ Démarrer</button></div>
         `;
     }
 }
@@ -1282,6 +1115,138 @@ function obFinish(){
     logAudit('ONBOARDING', `Nouvelle installation : ${d.nom}`);
 }
 
+// ============================================================
+// LICENCE
+// ============================================================
+function activateLicence(){
+    const input = document.getElementById('licInput').value.trim().toUpperCase();
+    const err = document.getElementById('licError');
+    err.textContent = '';
+    if(!input){ err.textContent = '❌ Entrez une clé'; return; }
+    const result = verifyLicence(input);
+    if(!result.valid){ err.textContent = '❌ ' + result.reason; return; }
+    state.licence = {
+        code: input, activatedAt: result.activatedAt || nowISO(),
+        expiresAt: result.expires, type: result.type,
+        deviceId: result.deviceId, duration: result.duration
+    };
+    saveLicence(state.licence);
+    document.getElementById('licenceScreen').classList.remove('show');
+    document.getElementById('lockScreen').classList.add('show');
+    document.getElementById('lockTitle').textContent = state.config.nom;
+    const msg = result.duration ? `✅ Licence ${result.duration} mois activée !` : '✅ Licence activée !';
+    showToast(msg, 'success', 3000);
+    logAudit('LICENCE_ACTIVATION', input);
+}
+
+function checkLicence(){
+    const lic = safeParse(KEYS.licence, null);
+    if(!lic){ showLicenceScreen('new'); return false; }
+    if(!verifyLicenceIntegrity(lic)){
+        localStorage.removeItem(KEYS.licence);
+        showLicenceScreen('new');
+        return false;
+    }
+    if(lic.type === 'trial'){
+        if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
+        state.licence = lic;
+        return true;
+    }
+    const result = verifyLicence(lic.code);
+    if(!result.valid){ showLicenceScreen('mismatch'); return false; }
+    if(new Date(lic.expiresAt) < new Date()){ showLicenceScreen('expired'); return false; }
+    state.licence = lic;
+    return true;
+}
+
+function showLicenceScreen(mode){
+    const screen = document.getElementById('licenceScreen');
+    const icon = document.getElementById('licIcon');
+    const title = document.getElementById('licTitle');
+    const desc = document.getElementById('licDesc');
+    const input = document.getElementById('licInput');
+    const btn = document.getElementById('licBtn');
+    const trialBox = document.getElementById('trialBox');
+    const err = document.getElementById('licError');
+    const deviceIdBig = document.getElementById('deviceIdBig');
+    const deviceBox = document.getElementById('deviceBox');
+    const btnContact = document.getElementById('btnContact');
+    const btnExport = document.getElementById('btnExport');
+    err.textContent = '';
+    if(deviceIdBig) deviceIdBig.textContent = getCurrentDeviceId();
+    input.style.display = 'none'; btn.style.display = 'none'; trialBox.style.display = 'none';
+    deviceBox.style.display = 'none'; btnContact.style.display = 'none'; btnExport.style.display = 'none';
+    if(mode === 'new'){
+        icon.textContent = '🔑'; title.textContent = 'Activation requise';
+        desc.innerHTML = 'Envoyez votre ID au vendeur,<br>puis entrez la clé reçue';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'Activer'; btn.onclick = activateLicence;
+        trialBox.style.display = 'block'; deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+    } else if(mode === 'mismatch'){
+        icon.textContent = '🚫'; title.textContent = 'Clé non valide';
+        desc.innerHTML = 'Cette clé est liée à un <strong>autre téléphone</strong>.<br>Contactez le vendeur.';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'Activer'; btn.onclick = activateLicence;
+        deviceBox.style.display = 'block'; btnContact.style.display = 'flex';
+    } else if(mode === 'expired'){
+        icon.textContent = '⏰'; title.textContent = 'Licence expirée';
+        desc.innerHTML = 'Votre licence est arrivée à son terme.<br>Contactez le vendeur.';
+        input.style.display = 'block'; input.value = ''; input.placeholder = 'XXXX-XXXX-XXXX-XXXX';
+        btn.style.display = 'block'; btn.textContent = 'J\'ai une clé'; btn.onclick = activateLicence;
+        deviceBox.style.display = 'block'; btnContact.style.display = 'flex'; btnExport.style.display = 'block';
+    }
+    screen.classList.add('show');
+}
+
+function copyDeviceId(){
+    const deviceId = getCurrentDeviceId();
+    const btn = document.getElementById('btnCopyId');
+    const doCopy = () => {
+        showToast('📋 ID copié !', 'success');
+        if(btn){ btn.textContent = '✅ Copié !'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copier mon ID'; btn.classList.remove('copied'); }, 2000); }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(deviceId).then(doCopy).catch(() => fallbackCopyDevice(deviceId, doCopy));
+    } else { fallbackCopyDevice(deviceId, doCopy); }
+}
+
+function fallbackCopyDevice(deviceId, cb){
+    const ta = document.createElement('textarea');
+    ta.value = deviceId; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); if(cb) cb(); } catch(e) {}
+    document.body.removeChild(ta);
+}
+
+function startTrial(){
+    const trial = {
+        code: 'TRIAL-' + Date.now(), activatedAt: nowISO(),
+        expiresAt: new Date(Date.now() + TRIAL_DAYS*24*60*60*1000).toISOString(),
+        type: 'trial', deviceId: getCurrentDeviceId()
+    };
+    state.licence = trial;
+    saveLicence(trial);
+    state.trialAlerted = null;
+    document.getElementById('licenceScreen').classList.remove('show');
+    document.getElementById('lockScreen').classList.add('show');
+    document.getElementById('lockTitle').textContent = state.config.nom;
+    showToast(`🎁 Essai ${TRIAL_DAYS} jours activé !`, 'success', 3000);
+    logAudit('TRIAL_START', `Expire le ${trial.expiresAt}`);
+}
+
+function getLicenceStatus(){
+    if (!state.licence) return 'Aucune';
+    const exp = new Date(state.licence.expiresAt);
+    const days = Math.floor((exp - new Date()) / (1000*60*60*24));
+    if (days < 0) return 'Expirée';
+    if (state.licence.type === 'trial') return `Essai (${days}j)`;
+    if (state.licence.duration) return `${state.licence.duration} mois (${days}j restants)`;
+    return `Active (${days}j)`;
+}
+
+// ============================================================
+// PIN / AUTH
+// ============================================================
 function pressPin(d){
     const el=document.getElementById('pinError');el.textContent='';
     if(d==='DEL'){state.pinBuffer=state.pinBuffer.slice(0,-1);}
@@ -1291,8 +1256,7 @@ function pressPin(d){
 }
 function updatePinDots(){document.querySelectorAll('#pinDisplay .pin-dot').forEach((dot,i)=>dot.classList.toggle('filled',i<state.pinBuffer.length));}
 function checkPin(){
-    const pin = state.pinBuffer;
-    const hash = hashPin(pin);
+    const hash = hashPin(state.pinBuffer);
     if(hash === state.config.pinPatronHash) loginAs('patron');
     else if(hash === state.config.pinCaissierHash) loginAs('caissier');
     else {
@@ -1355,9 +1319,17 @@ function updateLicenceDisplay(){
     badge.className = 'badge ' + (state.licence.type === 'trial' ? 'trial' : 'active');
 }
 
+// ============================================================
+// VENTE
+// ============================================================
+function getAllCategories(){
+    const fromProducts = [...new Set(state.products.map(p=>p.category).filter(c=>c))];
+    const fromConfig = state.config.categories || [];
+    return [...new Set([...fromProducts, ...fromConfig])];
+}
 function renderCategories(){
     const bar=document.getElementById('categoriesBar');
-    const cats=['Tous',...new Set(state.products.map(p=>p.category))];
+    const cats=['Tous',...getAllCategories()];
     bar.innerHTML=cats.map(c=>`<button class="cat-btn ${state.currentCategory===c?'active':''}" onclick="setCategory('${esc(c)}')">${esc(c)}</button>`).join('');
 }
 function setCategory(c){state.currentCategory=c;renderCategories();renderProducts();}
@@ -1385,7 +1357,6 @@ function updateSessionBadge(){
     else{b.textContent='🌙 Soir';b.classList.add('soir');}
 }
 function filterProducts(){state.searchTerm=document.getElementById('searchInput').value.trim();renderProducts();}
-
 function addToCart(pid){
     const p=state.products.find(x=>x.id==pid);if(!p)return;
     if(p.stock<=0){showToast('❌ Rupture','error');return;}
@@ -1465,7 +1436,7 @@ function useAcompte(){
     const pending=state.acomptes.filter(a=>a.status==='pending'&&a.remaining>0);
     if(pending.length===0){showToast('Aucun acompte disponible','info');return;}
     const list=pending.map((a,i)=>`${i+1}. ${a.name} - ${fmt(a.remaining)}`).join('\n');
-    const choice=prompt(`Choisir un acompte (numéro) :\n\n${list}\n\n0 = Annuler`);
+    const choice=prompt(`Choisir un acompte :\n\n${list}\n\n0 = Annuler`);
     if(!choice||choice==='0') return;
     const idx=parseInt(choice)-1;
     if(idx<0||idx>=pending.length){showToast('Choix invalide','error');return;}
@@ -1495,14 +1466,11 @@ function confirmSale(){
     });
     const cost = getCartCost();
     const change = received - toPay;
-    const cashIn = toPay;
     const tx={
         id:uid(), type:'vente', date:nowISO(), dateKey:todayKey(), session:getSession(), cashier:state.currentUser,
-        items:state.cart.map(i=>({...i})),
-        total, cost, profit:total-cost,
-        received: received + acompteAmt,
-        cashReceived: received,
-        cashIn: cashIn, cashOut: 0, change: change,
+        items:state.cart.map(i=>({...i})), total, cost, profit:total-cost,
+        received: received + acompteAmt, cashReceived: received,
+        cashIn: toPay, cashOut: 0, change: change,
         acompteUsed: acompteAmt,
         acompteId: state.acompteApplied ? state.acompteApplied.id : null
     };
@@ -1512,41 +1480,16 @@ function confirmSale(){
         if(ac){
             ac.remaining-=acompteAmt;
             ac.usedAmount=(ac.usedAmount||0)+acompteAmt;
-            ac.usedIn=(ac.usedIn||[]);
-            ac.usedIn.push({date:nowISO(),txId:tx.id,amount:acompteAmt});
             if(ac.remaining<=0){ac.status='used';ac.usedAt=nowISO();}
             saveAcomptes();
         }
     }
     saveProducts();saveTxs();
-    logAudit('VENTE',`${fmt(total)} - ${state.cart.map(i=>i.name+'×'+i.quantity).join(', ')}${acompteAmt>0?' (acompte '+fmt(acompteAmt)+')':''}`);
+    logAudit('VENTE',`${fmt(total)} - ${state.cart.map(i=>i.name+'×'+i.quantity).join(', ')}`);
     state.cart=[];state.paymentReceived=0;state.acompteApplied=null;
     renderCart();closeModal('payment');renderProducts();updateHeaderStats();
     if(navigator.vibrate)navigator.vibrate([50,50,50]);
     showToast(`✅ Vente ${fmt(total)} • Monnaie : ${fmt(change)}`,'success',3500);
-    setTimeout(()=>{
-        if(confirm(`Vente de ${fmt(total)} enregistrée.\n\n💰 En caisse : ${fmt(cashIn)}\n💸 Monnaie à rendre : ${fmt(change)}\n\nVoir le reçu ?`)) showReceipt(tx);
-    },300);
-}
-function showReceipt(tx){
-    const lines=tx.items.map(i=>`${i.name} x${i.quantity} = ${fmt(i.price*i.quantity)}`).join('\n');
-    const receipt=`================================
-   ${state.config.nom.toUpperCase()}
-   ${state.config.address}
-   Tél: ${state.config.phone || 'Non renseigné'}
-================================
-Date : ${new Date(tx.date).toLocaleString('fr-FR')}
-Caissier : ${tx.cashier}
---------------------------------
-${lines}
---------------------------------
-TOTAL     : ${fmt(tx.total)}
-${tx.acompteUsed?`Acompte   : -${fmt(tx.acompteUsed)}\n`:''}Reçu      : ${fmt(tx.cashReceived)}
-Monnaie   : ${fmt(tx.change)}
-================================
-Merci de votre visite ! 🥖
-================================`;
-    alert(receipt);
 }
 function openCreditSale(){
     if(state.cart.length===0) return;
@@ -1564,7 +1507,7 @@ function confirmCreditSale(){
     if(state.cart.length===0) return;
     for(const it of state.cart){
         const p=state.products.find(x=>x.id===it.id);
-        if(!p||p.stock<it.quantity){showToast(`❌ Stock insuffisant : ${it.name}`,'error');return;}
+        if(!p||p.stock<it.quantity){showToast(`❌ Stock insuffisant`,'error');return;}
     }
     state.cart.forEach(it=>{
         const p=state.products.find(x=>x.id===it.id);
@@ -1585,7 +1528,7 @@ function confirmCreditSale(){
     logAudit('VENTE_CREDIT',`${name} - ${fmt(total)}`);
     state.cart=[];
     renderCart();closeModal('creditSale');renderProducts();updateHeaderStats();
-    showToast(`💳 Crédit : ${name} - ${fmt(total)}`,'success',3000);
+    showToast(`💳 Crédit : ${name}`,'success',3000);
 }
 function openRemboursement(creditId){
     const c=state.credits.find(x=>x.id===creditId);if(!c)return;
@@ -1613,9 +1556,8 @@ function confirmRemboursement(){
     if(!amt||amt<=0){showToast('Montant invalide','error');return;}
     if(amt>c.remaining){showToast(`⚠️ Maximum : ${fmt(c.remaining)}`,'error');return;}
     const tx={id:uid(),type:'remboursement_credit',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
-        items:[{id:'cr_'+c.id,name:`Remboursement ${c.name}`,emoji:'💵',price:amt,cost:0,quantity:1}],
-        total:amt,cost:0,profit:0,
-        received:amt,cashReceived:amt,cashIn:amt,cashOut:0,change:0,linkedCreditId:c.id};
+        items:[{id:'cr_'+c.id,name:`Remb. ${c.name}`,emoji:'💵',price:amt,cost:0,quantity:1}],
+        total:amt,cost:0,profit:0,received:amt,cashReceived:amt,cashIn:amt,cashOut:0,change:0,linkedCreditId:c.id};
     state.txs.push(tx);
     c.paidAmount+=amt;c.remaining-=amt;
     c.history=c.history||[];
@@ -1648,14 +1590,13 @@ function confirmRetour(){
     if(q<=0){showToast('Quantité invalide','error');return;}
     const p=state.products.find(x=>x.id==pid);
     if(!p){showToast('Produit introuvable','error');return;}
-    if(!confirm(`Confirmer le retour de ${q} × ${p.name} ?\nMontant rendu : ${fmt(p.price*q)}`)) return;
+    if(!confirm(`Retour de ${q} × ${p.name} ?\nMontant rendu : ${fmt(p.price*q)}`)) return;
     p.stock+=q;
     const total=p.price*q;
     const cost=p.cost*q;
     const tx={id:uid(),type:'retour',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
         items:[{id:p.id,name:p.name,emoji:p.emoji,price:p.price,cost:p.cost,quantity:q}],
-        total,cost,profit:-(total-cost),
-        received:-total,cashReceived:0,cashIn:0,cashOut:total,change:0,reason};
+        total,cost,profit:-(total-cost),received:-total,cashReceived:0,cashIn:0,cashOut:total,change:0,reason};
     state.txs.push(tx);
     saveProducts();saveTxs();
     logAudit('RETOUR',`${p.name}×${q} - ${fmt(total)}`);
@@ -1684,7 +1625,7 @@ function confirmPerte(){
     const p=state.products.find(x=>x.id==pid);
     if(!p){showToast('Produit introuvable','error');return;}
     if(q>p.stock){showToast(`⚠️ Seulement ${p.stock} en stock`,'error');return;}
-    if(!confirm(`Confirmer la perte de ${q} × ${p.name} ?\nValeur : ${fmt(p.cost*q)}`)) return;
+    if(!confirm(`Perte de ${q} × ${p.name} ?\nValeur : ${fmt(p.cost*q)}`)) return;
     p.stock-=q;
     const lossValue=p.cost*q;
     const tx={id:uid(),type:'perte',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
@@ -1703,8 +1644,7 @@ function confirmDepense(){
     if(!reason){showToast('Motif requis','error');return;}
     if(!amount||amount<=0){showToast('Montant invalide','error');return;}
     const tx={id:uid(),type:'depense',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
-        items:[],total:amount,cost:0,profit:0,received:-amount,cashReceived:0,cashIn:0,cashOut:amount,change:0,
-        reason,label:reason,amount};
+        items:[],total:amount,cost:0,profit:0,received:-amount,cashReceived:0,cashIn:0,cashOut:amount,change:0,reason,label:reason,amount};
     state.txs.push(tx);saveTxs();
     logAudit('DEPENSE',`${reason} - ${fmt(amount)}`);
     document.getElementById('depenseReason').value='';
@@ -1717,8 +1657,7 @@ function confirmApport(){
     const amount=parseInt(document.getElementById('apportAmount').value);
     if(!amount||amount<=0){showToast('Montant invalide','error');return;}
     const tx={id:uid(),type:'apport_caisse',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
-        items:[],total:amount,cost:0,profit:0,received:amount,cashReceived:0,cashIn:amount,cashOut:0,change:0,
-        reason,amount};
+        items:[],total:amount,cost:0,profit:0,received:amount,cashReceived:0,cashIn:amount,cashOut:0,change:0,reason,amount};
     state.txs.push(tx);saveTxs();
     logAudit('APPORT',`${reason} - ${fmt(amount)}`);
     document.getElementById('apportReason').value='';
@@ -1731,8 +1670,7 @@ function confirmRetrait(){
     const amount=parseInt(document.getElementById('retraitAmount').value);
     if(!amount||amount<=0){showToast('Montant invalide','error');return;}
     const tx={id:uid(),type:'retrait_caisse',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
-        items:[],total:amount,cost:0,profit:0,received:-amount,cashReceived:0,cashIn:0,cashOut:amount,change:0,
-        reason,amount};
+        items:[],total:amount,cost:0,profit:0,received:-amount,cashReceived:0,cashIn:0,cashOut:amount,change:0,reason,amount};
     state.txs.push(tx);saveTxs();
     logAudit('RETRAIT',`${reason} - ${fmt(amount)}`);
     document.getElementById('retraitReason').value='';
@@ -1751,7 +1689,7 @@ function confirmAcompte(){
     state.acomptes.push(acompte);
     const tx={id:uid(),type:'acompte',date:nowISO(),dateKey:todayKey(),session:getSession(),cashier:state.currentUser,
         items:[],total:amount,cost:0,profit:0,received:amount,cashReceived:amount,cashIn:amount,cashOut:0,change:0,
-        acompteId:acompte.id,clientName:name,reason:note||'Acompte client'};
+        acompteId:acompte.id,clientName:name,reason:note||'Acompte'};
     state.txs.push(tx);
     saveAcomptes();saveTxs();
     logAudit('ACOMPTE',`${name} - ${fmt(amount)}`);
@@ -1763,6 +1701,9 @@ function confirmAcompte(){
     showToast(`🎁 Acompte : ${name}`,'success');
 }
 
+// ============================================================
+// STOCK
+// ============================================================
 function renderStock(){
     const list=document.getElementById('stockList');
     const alerts=document.getElementById('stockAlerts');
@@ -1792,7 +1733,7 @@ function renderStock(){
 }
 function openStockModal(pid){
     const p=state.products.find(x=>x.id==pid);if(!p)return;
-    document.getElementById('editStockTitle').textContent=`Ajouter : ${p.name} (actuel ${p.stock})`;
+    document.getElementById('editStockTitle').textContent=`Ajouter : ${p.name} (${p.stock})`;
     document.getElementById('stockAdjustment').value='';
     document.getElementById('stockAdjustment').dataset.productId=pid;
     document.getElementById('modal-editStock').classList.add('visible');
@@ -1803,12 +1744,11 @@ function adjustStock(){
     const q=parseInt(inp.value);
     if(!q||isNaN(q)||q<=0){showToast('Quantité invalide','error');return;}
     const p=state.products.find(x=>x.id==pid);if(!p)return;
-    const before=p.stock;
     p.stock+=q;
     saveProducts();renderStock();renderProducts();
     closeModal('editStock');
-    logAudit('REAPPRO',`${p.name} : ${before} → ${p.stock}`);
-    showToast(`✅ Stock : ${p.stock} unités`,'success');
+    logAudit('REAPPRO',`${p.name} +${q}`);
+    showToast(`✅ Stock : ${p.stock}`,'success');
 }
 function deleteProduct(pid){
     if(state.currentUser!=='patron'){showToast('Accès refusé','error');return;}
@@ -1822,22 +1762,29 @@ function deleteProduct(pid){
 function addNewProduct(){
     if(state.currentUser!=='patron'){showToast('Accès refusé','error');return;}
     const name=document.getElementById('newProductName').value.trim();
-    const emoji=document.getElementById('newProductEmoji').value.trim()||'🥖';
-    const category=document.getElementById('newProductCategory').value;
+    const emoji=document.getElementById('newProductEmoji').value.trim()||'📦';
+    const category=document.getElementById('newProductCategory').value.trim()||'Divers';
     const price=parseInt(document.getElementById('newProductPrice').value);
     const cost=parseInt(document.getElementById('newProductCost').value);
     const stock=parseInt(document.getElementById('newProductStock').value)||0;
     if(!name){showToast('Nom requis','error');return;}
     if(!price||price<=0){showToast('Prix invalide','error');return;}
     if(!cost||cost<0){showToast('Coût invalide','error');return;}
+    if(category && !state.config.categories.includes(category)){
+        state.config.categories.push(category);
+        saveConfig();
+    }
     state.products.push({id:uid(),name,emoji,category,price,cost,stock});
-    saveProducts();renderProducts();renderStock();
+    saveProducts();renderProducts();renderStock();renderCategories();
     closeModal('addProduct');
     logAudit('AJOUT_PRODUIT',name);
     showToast('✅ Ajouté','success');
-    ['newProductName','newProductEmoji','newProductPrice','newProductCost','newProductStock'].forEach(id=>document.getElementById(id).value='');
+    ['newProductName','newProductEmoji','newProductCategory','newProductPrice','newProductCost','newProductStock'].forEach(id=>document.getElementById(id).value='');
 }
 
+// ============================================================
+// CLIENTS
+// ============================================================
 function setClientFilter(f){
     state.clientFilter=f;
     document.querySelectorAll('[data-clientfilter]').forEach(b=>b.classList.toggle('active',b.dataset.clientfilter===f));
@@ -1908,6 +1855,9 @@ function deleteAcompte(aid){
     saveAcomptes();renderClients();
 }
 
+// ============================================================
+// HISTORIQUE
+// ============================================================
 function setTxFilter(f){
     state.txFilter=f;
     document.querySelectorAll('[data-txfilter]').forEach(b=>b.classList.toggle('active',b.dataset.txfilter===f));
@@ -1927,16 +1877,16 @@ function renderHistory(){
 }
 function renderTx(t){
     const types={
-        vente:{icon:'💰',label:'Vente comptant',cls:'tx-vente'},
-        vente_credit:{icon:'💳',label:'Vente à crédit',cls:'tx-vente_credit'},
-        remboursement_credit:{icon:'💵',label:'Remboursement crédit',cls:'tx-remboursement_credit'},
+        vente:{icon:'💰',label:'Vente',cls:'tx-vente'},
+        vente_credit:{icon:'💳',label:'Vente crédit',cls:'tx-vente_credit'},
+        remboursement_credit:{icon:'💵',label:'Remboursement',cls:'tx-remboursement_credit'},
         retour:{icon:'↩️',label:'Retour',cls:'tx-retour'},
         annulation:{icon:'❌',label:'Annulation',cls:'tx-annulation'},
         perte:{icon:'📉',label:'Perte',cls:'tx-perte'},
         depense:{icon:'💸',label:'Dépense',cls:'tx-depense'},
         acompte:{icon:'🎁',label:'Acompte',cls:'tx-acompte'},
-        apport_caisse:{icon:'🏦',label:'Apport caisse',cls:'tx-apport_caisse'},
-        retrait_caisse:{icon:'🏧',label:'Retrait caisse',cls:'tx-retrait_caisse'}
+        apport_caisse:{icon:'🏦',label:'Apport',cls:'tx-apport_caisse'},
+        retrait_caisse:{icon:'🏧',label:'Retrait',cls:'tx-retrait_caisse'}
     };
     const info=types[t.type]||{icon:'📄',label:t.type,cls:''};
     let amountStr='',amountCls='neutral';
@@ -1952,22 +1902,81 @@ function renderTx(t){
     else if(t.reason||t.label){details=esc(t.reason||t.label);}
     if(t.type==='vente_credit'&&t.clientName){details=`👤 ${esc(t.clientName)} — ${details}`;}
     const sessionIcon=t.session==='matin'?'☀️':'🌙';
-    let cashInfo = '';
-    if(t.type==='vente'){cashInfo = `<span>💰 Caisse: ${fmt(t.cashIn!==undefined?t.cashIn:t.total)}</span><span>💸 Monnaie: ${fmt(t.change)}</span>`;}
     return `<div class="tx-item ${info.cls}">
         <div class="tx-header">
             <div><div class="tx-type">${info.icon} ${info.label}</div><div class="tx-date">${sessionIcon} ${fmtDateTime(t.date)} • ${esc(t.cashier||'')}</div></div>
             <div class="tx-amount ${amountCls}">${amountStr}</div>
         </div>
         ${details?`<div class="tx-details">${details}</div>`:''}
-        ${t.type==='vente'?`<div class="tx-meta">${cashInfo}</div>`:''}
-        ${t.type==='vente_credit'?`<div class="tx-meta"><span>👤 ${esc(t.clientName)}${t.clientPhone?' • '+esc(t.clientPhone):''}</span></div>`:''}
+        ${t.type==='vente'?`<div class="tx-meta"><span>💰 ${fmt(t.cashIn)}</span><span>💸 ${fmt(t.change)}</span></div>`:''}
+        ${t.type==='vente_credit'?`<div class="tx-meta"><span>👤 ${esc(t.clientName)}</span></div>`:''}
         ${['depense','apport_caisse','retrait_caisse','perte','retour'].includes(t.type)?`<div class="tx-meta"><span>Motif: ${esc(t.reason||'')}</span></div>`:''}
     </div>`;
 }
 
-function getDayStats(dateKey){
-    const txs=state.txs.filter(t=>t.dateKey===dateKey);
+// ============================================================
+// STATS & PÉRIODES
+// ============================================================
+function setPeriod(period){
+    state.reportPeriod = period;
+    document.querySelectorAll('.period-tab').forEach(t => t.classList.toggle('active', t.dataset.period === period));
+    document.getElementById('customPeriodBox').style.display = period === 'custom' ? 'block' : 'none';
+    if(period === 'custom'){
+        if(!state.customStartDate){
+            const d = new Date();
+            d.setDate(1);
+            state.customStartDate = dateKeyFromDate(d);
+            document.getElementById('customStartDate').value = state.customStartDate;
+        }
+        if(!state.customEndDate){
+            state.customEndDate = todayKey();
+            document.getElementById('customEndDate').value = state.customEndDate;
+        }
+    }
+    renderReports();
+}
+function getPeriodDates(){
+    const today = new Date();
+    const period = state.reportPeriod;
+    if(period === 'day'){
+        const key = dateKeyFromDate(today);
+        return { start: key, end: key, label: today.toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'}) };
+    }
+    if(period === 'week'){
+        const day = today.getDay();
+        const diffToMonday = day === 0 ? -6 : 1 - day;
+        const monday = new Date(today);
+        monday.setDate(today.getDate() + diffToMonday);
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        return {
+            start: dateKeyFromDate(monday), end: dateKeyFromDate(sunday),
+            label: `Semaine du ${monday.toLocaleDateString('fr-FR', {day:'numeric', month:'short'})} au ${sunday.toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'})}`
+        };
+    }
+    if(period === 'month'){
+        const first = new Date(today.getFullYear(), today.getMonth(), 1);
+        const last = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        return {
+            start: dateKeyFromDate(first), end: dateKeyFromDate(last),
+            label: today.toLocaleDateString('fr-FR', {month:'long', year:'numeric'})
+        };
+    }
+    if(period === 'year'){
+        const first = new Date(today.getFullYear(), 0, 1);
+        const last = new Date(today.getFullYear(), 11, 31);
+        return { start: dateKeyFromDate(first), end: dateKeyFromDate(last), label: `Année ${today.getFullYear()}` };
+    }
+    if(period === 'custom'){
+        const start = state.customStartDate || todayKey();
+        const end = state.customEndDate || todayKey();
+        return { start, end, label: `Du ${new Date(start).toLocaleDateString('fr-FR')} au ${new Date(end).toLocaleDateString('fr-FR')}` };
+    }
+    return { start: todayKey(), end: todayKey(), label: '' };
+}
+function getPeriodStats(){
+    const { start, end } = getPeriodDates();
+    const txs = state.txs.filter(t => t.dateKey >= start && t.dateKey <= end);
     let ca=0,profit=0,cashIn=0,cashOut=0,creditSales=0,morning=0,evening=0,txCount=0,revenueItems={};
     txs.forEach(t=>{
         if(t.type==='vente'){
@@ -1990,31 +1999,47 @@ function getDayStats(dateKey){
     Object.entries(revenueItems).forEach(([n,c])=>{if(c>max){max=c;top=`${n} (${c})`;}});
     return {ca,profit,cashIn,cashOut,creditSales,morning,evening,txCount,top,expectedCash:cashIn-cashOut,txs};
 }
+function getDayStats(dateKey){
+    const txs=state.txs.filter(t=>t.dateKey===dateKey);
+    let ca=0,profit=0,cashIn=0,cashOut=0;
+    txs.forEach(t=>{
+        if(t.type==='vente'){ca+=t.total;profit+=t.profit;cashIn+=(t.cashIn!==undefined?t.cashIn:t.total);}
+        else if(t.type==='vente_credit'){ca+=t.total;profit+=t.profit;}
+        else if(t.type==='remboursement_credit'){cashIn+=(t.cashIn!==undefined?t.cashIn:t.total);}
+        else if(t.type==='retour'||t.type==='annulation'){ca-=t.total;profit+=t.profit;cashOut+=(t.cashOut!==undefined?t.cashOut:t.total);}
+        else if(t.type==='perte'){profit-=t.cost;}
+        else if(t.type==='depense'||t.type==='retrait_caisse'){cashOut+=(t.cashOut!==undefined?t.cashOut:(t.amount||t.total));}
+        else if(t.type==='acompte'||t.type==='apport_caisse'){cashIn+=(t.cashIn!==undefined?t.cashIn:(t.amount||t.total));}
+    });
+    return {ca,profit,cashIn,cashOut,expectedCash:cashIn-cashOut};
+}
 function renderReports(){
-    const s=getDayStats(todayKey());
-    document.getElementById('reportTodaySales').textContent=fmt(s.ca);
-    document.getElementById('reportTodayProfit').textContent=fmt(s.profit);
-    document.getElementById('reportCashIn').textContent=fmt(s.cashIn);
-    document.getElementById('reportCashOut').textContent=fmt(s.cashOut);
-    document.getElementById('reportExpectedCash').textContent=fmt(s.expectedCash);
-    document.getElementById('reportMorningSales').textContent=fmt(s.morning);
-    document.getElementById('reportEveningSales').textContent=fmt(s.evening);
-    document.getElementById('reportCreditSales').textContent=fmt(s.creditSales);
-    document.getElementById('reportTransactions').textContent=s.txCount;
-    document.getElementById('reportTopProduct').textContent=s.top;
+    const s = getPeriodStats();
+    const { label } = getPeriodDates();
+    document.getElementById('periodLabel').textContent = label;
+    document.getElementById('reportTodaySales').textContent = fmt(s.ca);
+    document.getElementById('reportTodayProfit').textContent = fmt(s.profit);
+    document.getElementById('reportCashIn').textContent = fmt(s.cashIn);
+    document.getElementById('reportCashOut').textContent = fmt(s.cashOut);
+    document.getElementById('reportMorningSales').textContent = fmt(s.morning);
+    document.getElementById('reportEveningSales').textContent = fmt(s.evening);
+    document.getElementById('reportCreditSales').textContent = fmt(s.creditSales);
+    document.getElementById('reportTransactions').textContent = s.txCount;
+    document.getElementById('reportTopProduct').textContent = s.top;
 }
 function updateHeaderStats(){
-    const s=getDayStats(todayKey());
-    document.getElementById('statSales').textContent=fmtN(s.ca)+' F';
-    document.getElementById('statCash').textContent=fmtN(s.expectedCash)+' F';
-    document.getElementById('statProfit').textContent=fmtN(s.profit)+' F';
+    const s = getDayStats(todayKey());
+    document.getElementById('statSales').textContent = fmtN(s.ca)+' F';
+    document.getElementById('statCash').textContent = fmtN(s.expectedCash)+' F';
+    document.getElementById('statProfit').textContent = fmtN(s.profit)+' F';
 }
 
+// ============================================================
+// CLÔTURE
+// ============================================================
 function openClosing(){
     const s=getDayStats(todayKey());
-    const creditsOpen=state.credits.filter(c=>c.status!=='paid'&&c.createdAt.startsWith(todayKey())).reduce((a,c)=>a+c.remaining,0);
-    const acomptesOpen=state.acomptes.filter(a=>a.status==='pending'&&a.createdAt.startsWith(todayKey())).reduce((a,x)=>a+x.remaining,0);
-    const dayTxs=s.txs;
+    const dayTxs=state.txs.filter(t=>t.dateKey===todayKey());
     const ventesCash=dayTxs.filter(t=>t.type==='vente').reduce((a,t)=>a+(t.cashIn!==undefined?t.cashIn:t.total),0);
     const remboursements=dayTxs.filter(t=>t.type==='remboursement_credit').reduce((a,t)=>a+(t.cashIn!==undefined?t.cashIn:t.total),0);
     const acomptesRecus=dayTxs.filter(t=>t.type==='acompte').reduce((a,t)=>a+(t.cashIn!==undefined?t.cashIn:(t.amount||t.total)),0);
@@ -2022,13 +2047,9 @@ function openClosing(){
     const retours=dayTxs.filter(t=>['retour','annulation'].includes(t.type)).reduce((a,t)=>a+(t.cashOut!==undefined?t.cashOut:t.total),0);
     const depenses=dayTxs.filter(t=>t.type==='depense').reduce((a,t)=>a+(t.cashOut!==undefined?t.cashOut:(t.amount||t.total)),0);
     const retraits=dayTxs.filter(t=>t.type==='retrait_caisse').reduce((a,t)=>a+(t.cashOut!==undefined?t.cashOut:(t.amount||t.total)),0);
-
     document.getElementById('closingContent').innerHTML=`
         <div class="alert alert-info">📅 ${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
         <div class="closing-row"><span>💰 CA total</span><strong>${fmt(s.ca)}</strong></div>
-        <div class="closing-row sub"><span>☀️ Matin</span><span>${fmt(s.morning)}</span></div>
-        <div class="closing-row sub"><span>🌙 Soir</span><span>${fmt(s.evening)}</span></div>
-        <div class="closing-row sub"><span>💳 Crédit</span><span>${fmt(s.creditSales)}</span></div>
         <div style="margin-top:15px;font-weight:800;color:#8B4513;font-size:13px;">💵 ENTRÉES</div>
         <div class="closing-row"><span>Ventes cash</span><strong>+${fmt(ventesCash)}</strong></div>
         <div class="closing-row"><span>Remboursements</span><strong>+${fmt(remboursements)}</strong></div>
@@ -2046,10 +2067,6 @@ function openClosing(){
         <div class="cash-display" style="margin-top:10px;">
             <div class="cash-label">Écart</div>
             <div class="cash-change" id="ecartDisplay">0 FCFA</div>
-        </div>
-        <div style="margin-top:15px;font-size:11px;color:#666;">
-            <div>💳 Crédits ouverts : <b>${fmt(creditsOpen)}</b></div>
-            <div>🎁 Acomptes dispo : <b>${fmt(acomptesOpen)}</b></div>
         </div>
         <div class="cart-actions" style="margin-top:20px;">
             <button class="btn btn-secondary" onclick="closeModal('closing')">Annuler</button>
@@ -2092,6 +2109,9 @@ function showClosings(){
     document.getElementById('modal-closings').classList.add('visible');
 }
 
+// ============================================================
+// EXPORT / IMPORT
+// ============================================================
 function exportData(){
     const data={version:VERSION,exportDate:nowISO(),config:state.config,products:state.products,txs:state.txs,credits:state.credits,acomptes:state.acomptes,closings:state.closings,audit:state.audit};
     const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
@@ -2100,7 +2120,7 @@ function exportData(){
     a.href=url;a.download=`${state.config.nom.replace(/\s/g,'-')}-${todayKey()}.json`;a.click();
     URL.revokeObjectURL(url);
     state.settings.lastExport=nowISO();saveSettings();
-    logAudit('EXPORT','Export manuel');
+    logAudit('EXPORT','');
     showToast('📤 Exporté','success');
 }
 function openImport(){document.getElementById('importFile').click();}
@@ -2112,7 +2132,6 @@ function handleImport(e){
         try{
             const data=JSON.parse(ev.target.result);
             if(!data.products||!data.txs) throw new Error('Format invalide');
-            if(!confirm(`Importer ${data.products.length} produits et ${data.txs.length} transactions ?`)) return;
             state.products=data.products||[];
             state.txs=data.txs||[];
             state.credits=data.credits||[];
@@ -2121,7 +2140,7 @@ function handleImport(e){
             state.audit=data.audit||[];
             if(data.config) state.config = {...state.config, ...data.config};
             saveProducts();saveTxs();saveCredits();saveAcomptes();saveClosings();saveConfig();
-            logAudit('IMPORT','Fichier importé');
+            logAudit('IMPORT','');
             showToast('✅ Importé','success');
             location.reload();
         }catch(err){console.error(err);showToast('❌ Fichier invalide','error');}
@@ -2129,8 +2148,11 @@ function handleImport(e){
     reader.readAsText(file);
 }
 
+// ============================================================
+// CONFIG
+// ============================================================
 function openBoulangerieModal(){
-    if(state.currentUser!=='patron'){showToast('❌ Seul le patron peut modifier la boulangerie','error');return;}
+    if(state.currentUser!=='patron'){showToast('❌ Patron uniquement','error');return;}
     document.getElementById('boulangerieName').value = state.config.nom;
     document.getElementById('boulangerieLogo').value = state.config.logo;
     document.getElementById('boulangeriePhone').value = state.config.phone;
@@ -2154,7 +2176,7 @@ function saveBoulangerie(){
     logAudit('CONFIG_UPDATE', nom);
 }
 function openPinModal(){
-    if(state.currentUser!=='patron'){showToast('❌ Seul le patron peut changer les PIN','error');return;}
+    if(state.currentUser!=='patron'){showToast('❌ Patron uniquement','error');return;}
     document.getElementById('newPinPatron').value = '';
     document.getElementById('newPinCaissier').value = '';
     document.getElementById('modal-pin').classList.add('visible');
@@ -2165,7 +2187,7 @@ function savePins(){
     const p2 = document.getElementById('newPinCaissier').value.trim();
     if (!/^\d{4}$/.test(p1)) { showToast('PIN Patron : 4 chiffres', 'error'); return; }
     if (!/^\d{4}$/.test(p2)) { showToast('PIN Caissier : 4 chiffres', 'error'); return; }
-    if (p1 === p2) { showToast('PIN différents obligatoires', 'error'); return; }
+    if (p1 === p2) { showToast('PIN différents', 'error'); return; }
     state.config.pinPatronHash = hashPin(p1);
     state.config.pinCaissierHash = hashPin(p2);
     saveConfig();
@@ -2175,7 +2197,7 @@ function savePins(){
 }
 function resetAllData(){
     if(state.currentUser!=='patron'){showToast('Accès refusé','error');return;}
-    const t=prompt('⚠️ EFFACER toutes les données ?\nTapez "EFFACER" pour confirmer :');
+    const t=prompt('⚠️ EFFACER toutes les données ?\nTapez "EFFACER" :');
     if(t!=='EFFACER'){showToast('Annulé','info');return;}
     Object.values(KEYS).forEach(k=>localStorage.removeItem(k));
     location.reload();
@@ -2202,15 +2224,15 @@ function renderSettingsSection(){
         el.innerHTML = `<div class="alert alert-info">👑 Mode Patron • Accès complet</div>`;
         if (patronEl) {
             patronEl.innerHTML = `
-                <button class="btn btn-info" style="margin-top:10px;" onclick="openBoulangerieModal()">🏪 Modifier boulangerie</button>
+                <button class="btn btn-info" style="margin-top:10px;" onclick="openBoulangerieModal()">🥖 Modifier boulangerie</button>
                 <button class="btn btn-info" style="margin-top:10px;" onclick="openPinModal()">🔑 Changer PIN</button>
-                <button class="btn btn-danger" style="margin-top:10px;" onclick="resetAllData()">🗑️ Réinitialiser toutes les données</button>
+                <button class="btn btn-danger" style="margin-top:10px;" onclick="resetAllData()">🗑️ Réinitialiser</button>
             `;
         }
     } else {
         el.innerHTML = `<div class="alert alert-warning">👤 Mode Caissier • Accès limité</div>`;
         if (patronEl) {
-            patronEl.innerHTML = `<div class="alert alert-info" style="font-size:11px;margin-top:10px;">ℹ️ Seul le patron peut modifier la boulangerie, changer les PIN et réinitialiser.</div>`;
+            patronEl.innerHTML = `<div class="alert alert-info" style="font-size:11px;margin-top:10px;">ℹ️ Seul le patron peut modifier.</div>`;
         }
     }
 }
@@ -2240,10 +2262,10 @@ function installPWA(){
 }
 function dismissInstall(){
     document.getElementById('installBanner').classList.remove('show');
-    safeSave('bp4_install_dismissed', Date.now());
+    safeSave('bp5_install_dismissed', Date.now());
 }
 function checkInstallPrompt(){
-    if(localStorage.getItem('bp4_install_dismissed')) return;
+    if(localStorage.getItem('bp5_install_dismissed')) return;
     if(!state.deferredPrompt) return;
     setTimeout(()=>document.getElementById('installBanner').classList.add('show'), 3000);
 }
