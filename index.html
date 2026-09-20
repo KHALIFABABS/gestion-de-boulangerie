@@ -832,6 +832,14 @@ function generateDeviceId(){
 }
 
 function getCurrentDeviceId(){ return localStorage.getItem(KEYS.deviceId) || generateDeviceId(); }
+// ⭐ Calcul fiable des jours restants (utilisé partout)
+function getDaysRemaining(expiresAt){
+    const exp = new Date(expiresAt);
+    const now = new Date();
+    exp.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+    return Math.round((exp - now) / (1000 * 60 * 60 * 24));
+}
 
 // ============================================================
 // 🔐 PROTECTION ESSAI UNIQUE
@@ -1010,8 +1018,7 @@ function contactWhatsApp(){
 
 function getTrialDaysLeft(){
     if(!state.licence || state.licence.type !== 'trial') return 0;
-    const exp = new Date(state.licence.expiresAt);
-    return Math.max(0, Math.ceil((exp - new Date()) / (1000*60*60*24)));
+    return Math.max(0, getDaysRemaining(state.licence.expiresAt));
 }
 
 function updateTrialBanner(){
@@ -1365,8 +1372,7 @@ async function startTrial(){
 
 function getLicenceStatus(){
     if (!state.licence) return 'Aucune';
-    const exp = new Date(state.licence.expiresAt);
-    const days = Math.floor((exp - new Date()) / (1000*60*60*24));
+    const days = getDaysRemaining(state.licence.expiresAt);
     if (days < 0) return 'Expirée';
     if (state.licence.type === 'trial') return `Essai (${days}j)`;
     if (state.licence.duration) return `${state.licence.duration} mois (${days}j restants)`;
